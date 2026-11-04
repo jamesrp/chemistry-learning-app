@@ -1,0 +1,35 @@
+// Grown-up notes for each family: the chemistry, the mathematics, a caution,
+// and a kitchen-table activity. Plain HTML strings; shown only on the
+// Grown-ups page.
+export const NOTES = {
+  bridges: {
+    chemistry: 'Each board is a Lewis structure. An atom makes a fixed number of bonds: hydrogen 1, oxygen 2, nitrogen 3, carbon 4, chlorine 1. The dots are the atom’s outer (valence) electrons. A bond shares one electron from each atom, and the pairs left over are lone pairs. Double and triple bonds share two and three pairs.',
+    maths: 'A molecule here is a multigraph whose vertex degrees are fixed by the elements, which makes the board the logic puzzle Hashiwokakero (“Bridges”) with up to three bridges. A solver lists every valid bond assignment for each board: all have exactly one, except benzene, which has the two Kekulé structures and asks for both. That pair is the idea of resonance: real benzene is neither drawing, and its six carbon–carbon bonds are all the same length.',
+    caution: 'Treat bond counts as rules of the puzzle, not as “atoms want a full shell”: research on teaching suggests that explanation becomes a sticky misconception. A better story is that the nuclei attract the shared electrons between them. The counts are reliable for C, N, O and the halogens and have real exceptions: O₂ is drawn O=O but has two unpaired electrons, which is why liquid oxygen sticks to a magnet.',
+    kitchen: 'Marshmallows or gumdrops and toothpicks. Rule card: hydrogen gets one toothpick, oxygen two, nitrogen three, carbon four; a double bond is two toothpicks. Build the molecule from the screen, then try to build CH₅ and find out why you can’t.',
+  },
+  isomers: {
+    chemistry: 'Isomers have the same atoms joined differently. Ethanol (the alcohol in drinks) and dimethyl ether (a gas) are both C₂H₆O. The board fills each atom’s spare bonds with hydrogens, as a chemist’s condensed formula does (CH₃, OH), so a child builds only the skeleton.',
+    maths: 'Two drawings are the same molecule when there is a relabelling of atoms that carries one graph to the other; the app checks this exactly by trying every relabelling, so bending or flipping a chain is refused as a copy. The number of molecules per bag is checked against a full enumeration: the alkanes C₄H₁₀, C₅H₁₂ and C₆H₁₄ have 2, 3 and 5, the start of the sequence Cayley counted in the 1870s. As with Math Studio’s “find every one” puzzles, no slot per answer is shown: knowing you have them all is the point.',
+    caution: 'Only constitutional isomers count here. Mirror images and cis/trans pairs are left for later, so but-2-ene counts once although it comes in two shapes.',
+    kitchen: 'The same toothpick kit: build pentane (five carbons in a row), bend it and check it’s still pentane, then find the two real others.',
+  },
+  ions: {
+    chemistry: 'Ions are atoms or small groups with a charge: Na⁺, Ca²⁺, Cl⁻, O²⁻, and groups such as OH⁻ and SO₄²⁻ that stay together. An ionic compound has charges that cancel. Its formula is the smallest whole-number ratio, so Al³⁺ and O²⁻ make Al₂O₃.',
+    maths: 'A rod’s length is its ion’s charge, so the two rails meet at a common multiple and the formula unit is the least common multiple: 3 × 2 = 2 × 3 = 6.',
+    caution: 'A salt is not made of separate molecules: the formula is a ratio of ions packed in a crystal.',
+    kitchen: 'Salt water conducts electricity and sugar water doesn’t: salt is made of ions, sugar is a covalent molecule. A simple tester is a 9 V battery, an LED with a resistor and two wires dipped in a cup (grown-up builds it; never use mains power). Then grow salt crystals on a string and look at the cubes with a magnifier.',
+  },
+  recycling: {
+    chemistry: 'A reaction breaks bonds and makes new ones, and no atom is created or destroyed. When the bench is empty the counts read off as a balanced equation: 2H₂ + O₂ → 2H₂O. The boards ask for the smallest whole numbers. The piles with a fixed supply are limiting-reagent problems: one reactant runs out first and some of the other is left over.',
+    maths: 'Balancing finds positive integers in the kernel of the element-by-molecule matrix. Usually that kernel is a line, so the smallest answer is unique; on the last Hard board (H₂ and O₂ to H₂O and H₂O₂) it is a plane, and any balanced answer counts.',
+    caution: 'A balanced equation only says how atoms rearrange. It doesn’t say a reaction happens easily (hydrogen and oxygen need a spark), and photosynthesis is a summary of many steps inside a leaf.',
+    kitchen: 'LEGO bricks in atom colours: build two H₂ and one O₂, take them apart, rebuild them as water and check nothing is left. Then baking soda and vinegar in a zip bag that puffs up: the gas is carbon dioxide, and its atoms came from the baking soda.',
+  },
+  ice: {
+    chemistry: 'In ice each oxygen holds two hydrogens close (its own water molecule) and has two more nearby that belong to neighbours, held by hydrogen bonds. These are the Bernal–Fowler ice rules. That open network is why ice is less dense than water and floats.',
+    maths: 'On a square grid the ice rules are the six-vertex model. Pauling used counts of such arrangements in 1935 to explain why ice keeps some entropy near absolute zero, and Lieb found the exact count for square ice in 1967. With special boundary conditions its states match alternating-sign matrices, which Kuperberg used to count them. Each board here fixes the edge hydrogens and a few inside ones so that exactly one arrangement works (checked by a solver).',
+    caution: 'Square ice is a model: real ice is three-dimensional, with each oxygen at the centre of a tetrahedron. A 2015 report of square ice between graphene sheets was later doubted by its own authors.',
+    kitchen: 'Freeze water in a full, capped plastic bottle: it bulges, because freezing water expands. Drop an ice cube in water (it floats), then in rubbing alcohol, which a grown-up pours (it sinks, because the alcohol is less dense than ice).',
+  },
+};

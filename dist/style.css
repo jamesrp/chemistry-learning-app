@@ -1,0 +1,146 @@
+/* Chem Studio, in Math Studio's board look: a paper card, ink outlines, sun
+   and leaf fills, pine for the chosen thing, ochre for attention, Georgia for
+   the symbols and numbers that matter. */
+:root{--ink:#294439;--muted:#5a6850;--line:#d0d6bd;--paper:#f5f1e6;--card:#fffdf5;--pine:#31533e;--pine-deep:#1d3526;--on-pine:#fff8d9;--ochre:#b38840;--sun:#efc76e;--leaf:#86a68c;--sky:#9cc9de;--rose:#e7a28f;--good:#3c7a4a;--good-soft:#e2ecd6;--bad:#a9503a;--bad-soft:#f5e3d9;--chip:#eceddf;--display:Georgia,'Times New Roman',serif;
+  --el-H:#fffdf5;--el-C:#4f5d53;--el-N:#9cc9de;--el-O:#e7a28f;--el-Cl:#9cc08f;--el-F:#c6dcb5;--el-S:#efc76e}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif;font-size:17px;line-height:1.5;touch-action:manipulation}
+button,a.primary,a.tool{font:inherit}
+.shell{max-width:900px;margin:0 auto;padding:max(14px,env(safe-area-inset-top)) 16px 40px}
+h1,h2,h3{font-family:var(--display);font-weight:400;margin:0}
+
+/* Home */
+.app-title{font-size:2rem;margin:6px 0 18px}
+.family{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 0 var(--line);padding:14px 16px 10px;margin-bottom:16px}
+.family h2{font-size:1.35rem;margin-bottom:8px}
+.tier{display:flex;align-items:center;gap:12px;margin:6px 0}
+.tier-label{flex:0 0 4.6em;color:var(--muted);font-size:.85rem}
+.tier-levels{display:flex;flex-wrap:wrap;gap:8px}
+.level{display:inline-flex;align-items:center;justify-content:center;min-width:48px;height:48px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);color:var(--ink);text-decoration:none;font-family:var(--display);font-size:1.2rem}
+.level.solved{background:var(--pine);color:var(--on-pine);border-color:var(--pine);box-shadow:0 2px 0 var(--pine-deep)}
+.level:focus-visible,.tool:focus-visible,button:focus-visible,a:focus-visible{outline:3px solid var(--ochre);outline-offset:2px}
+.foot{margin-top:24px;text-align:center}
+.foot a{color:var(--muted)}
+
+/* Play */
+.play-top{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.spacer{flex:1}
+.level-no{font-family:var(--display);font-size:1.3rem;color:var(--muted);padding:0 4px}
+.tool{display:inline-flex;align-items:center;justify-content:center;min-width:48px;min-height:46px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);color:var(--ink);text-decoration:none;font-weight:600;cursor:pointer}
+.tool:disabled{opacity:.45;box-shadow:none;cursor:default}
+.tool.hint{background:#f6e7b9;border-color:#e3cf98;box-shadow:0 2px 0 #e3cf98}
+.home-link{font-size:1.3rem}
+.board-panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 0 var(--line);padding:14px;user-select:none;-webkit-user-select:none}
+.feedback{min-height:1.5em;margin:10px 4px 0;color:var(--ink)}
+.feedback.shown{background:#fbf4dc;border:1px solid #ead9a4;border-radius:12px;padding:8px 12px}
+.puzzle-goal{margin:0 0 10px;font-weight:500}
+.primary{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 22px;background:var(--pine);color:var(--on-pine);border:0;border-radius:12px;box-shadow:0 3px 0 var(--pine-deep);font-weight:700;text-decoration:none;cursor:pointer}
+.secondary{min-height:48px;padding:0 18px;background:var(--card);color:var(--ink);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 0 var(--line);font-weight:600;cursor:pointer}
+.primary:disabled,.secondary:disabled{opacity:.4;box-shadow:none;cursor:default}
+.actions{display:flex;gap:10px;justify-content:center;margin:10px 0 4px}
+.solved-strip{display:flex;align-items:center;gap:14px;justify-content:space-between;margin-top:12px;background:var(--good-soft);border:1px solid #c5d7b8;border-radius:14px;padding:12px 14px}
+.solved-strip[hidden]{display:none}
+.solved-text{display:flex;flex-direction:column}
+.solved-title{font-family:var(--display);font-weight:400;font-size:1.45rem}
+.solved-detail{color:var(--muted)}
+
+/* SVG boards */
+.board-svg{display:block;width:100%;height:auto;max-height:64vh;margin:0 auto;overflow:visible}
+.board-svg text,.mini text{font-family:var(--display);text-anchor:middle;pointer-events:none}
+.tap{cursor:pointer;outline:none}
+.hit{stroke:transparent;stroke-width:44px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.hit:hover{stroke:rgba(41,68,57,.06)}
+.hit:focus-visible{stroke:rgba(179,136,64,.3);stroke-width:30px}
+.bond{stroke:var(--ink);stroke-width:3px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.mini .bond{stroke-width:1.8px}
+.slot{stroke:#b9c4a8;stroke-width:1.5px;vector-effect:non-scaling-stroke;stroke-dasharray:3 4}
+.atom-disc{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.mini .atom-disc{stroke-width:1.2px}
+.atom-label{fill:var(--ink)}
+.atom-h{fill:var(--ink)}
+.el-H .atom-disc{fill:var(--el-H)} .el-C .atom-disc{fill:var(--el-C)} .el-N .atom-disc{fill:var(--el-N)} .el-O .atom-disc{fill:var(--el-O)} .el-Cl .atom-disc{fill:var(--el-Cl)} .el-F .atom-disc{fill:var(--el-F)} .el-S .atom-disc{fill:var(--el-S)}
+.el-C .atom-label,.el-C .atom-h{fill:var(--on-pine)}
+.atom.full .atom-disc{stroke:var(--good);stroke-width:3.5px}
+.atom.over .atom-disc{stroke:var(--bad);stroke-width:3.5px;stroke-dasharray:4 3}
+.dot{fill:var(--ink)}
+.dot.single{fill:var(--ochre);stroke:var(--ink);stroke-width:.5px;vector-effect:non-scaling-stroke}
+.edge.hinted .slot,.edge.hinted .bond{stroke:var(--ochre);stroke-width:5px;stroke-dasharray:6 4}
+.edge.hinted .hit{stroke:rgba(179,136,64,.18)}
+
+/* Shelves of kept or found things */
+.shelf{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:10px}
+.shelf:empty{display:none}
+.shelf-item{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:6px 10px;display:flex;flex-direction:column;align-items:center}
+.shelf-item .mini{height:68px;width:auto;max-width:180px}
+.shelf-name{font-size:.85rem;color:var(--muted);text-align:center;max-width:160px}
+.formula-item{font-family:var(--display);font-size:1.25rem;padding:8px 14px}
+.flash{animation:flash 1.2s ease}
+@keyframes flash{0%,100%{box-shadow:none}20%,60%{box-shadow:0 0 0 4px var(--ochre)}}
+
+/* Trays and chips */
+.tray{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:8px}
+.chip{display:inline-flex;align-items:baseline;gap:4px;min-height:48px;min-width:60px;padding:6px 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);color:var(--ink);font-family:var(--display);font-size:1.3rem;cursor:pointer;align-items:center;justify-content:center}
+.chip[aria-pressed="true"]{border-color:var(--pine);box-shadow:inset 0 0 0 2px var(--pine)}
+.chip-n{font-size:1rem;color:var(--muted)}
+.h-chip{cursor:default;background:var(--paper)}
+.h-chip .h-now{font-family:'Avenir Next',Avenir,sans-serif;font-size:.8rem;font-weight:700;background:var(--bad-soft);color:var(--bad);border-radius:8px;padding:0 6px;margin-left:4px}
+.h-chip.match .h-now{background:var(--good-soft);color:var(--good)}
+.el-chip .chip-el{display:inline-flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);font-size:1.05rem}
+.el-chip.el-C .chip-el{background:var(--el-C);color:var(--on-pine)} .el-chip.el-O .chip-el{background:var(--el-O)} .el-chip.el-N .chip-el{background:var(--el-N)}
+.place-hit{fill:transparent}
+.place-dot{fill:#b9c4a8}
+.place:hover .place-dot{fill:var(--ochre)}
+
+/* Charge jigsaw */
+.ion-tray{gap:12px}
+.ion-button{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:72px;min-height:72px;padding:8px 12px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);cursor:pointer;color:var(--ink)}
+.ion-label{font-family:var(--display);font-size:1.15rem}
+.rod-body{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.rod.plus .rod-body{fill:var(--sun)} .rod.minus .rod-body{fill:var(--sky)}
+.rod-label{font-size:13px;fill:var(--ink)}
+.rails{fill:var(--paper);stroke:var(--line);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.rails.neutral{fill:var(--good-soft);stroke:var(--good);stroke-width:2.5px}
+.open-span{fill:none;stroke:var(--ochre);stroke-width:2px;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.board-svg.ions{max-height:40vh}
+
+/* Atom recycling */
+.reaction{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1.3fr) auto minmax(0,1fr);gap:8px;align-items:center}
+.side{display:flex;flex-direction:column;gap:10px}
+.arrow{font-size:1.8rem;color:var(--muted)}
+.mol-card{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:92px;padding:8px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);cursor:pointer;color:var(--ink)}
+.mol-card .mini{height:44px;width:auto;max-width:100%}
+.mol-card:disabled{opacity:.5;cursor:default;box-shadow:none}
+.products .mol-card.can{border-color:var(--pine);box-shadow:0 2px 0 var(--pine)}
+.mol-formula{font-family:var(--display);font-size:1.15rem}
+.mol-count{font-family:var(--display);color:var(--muted);min-height:1.3em}
+.bench{min-height:120px;border:2px dashed var(--line);border-radius:14px;padding:8px;display:flex;flex-direction:column;gap:6px;justify-content:center;background:var(--paper)}
+.bench.empty{border-color:#c5d7b8;background:var(--good-soft)}
+.bench-row{display:flex;flex-wrap:wrap;gap:3px;border-radius:10px;padding:2px}
+.ball{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;border:1.5px solid var(--ink);font-family:var(--display);font-size:.72rem;line-height:1}
+.ball.el-H{background:var(--el-H)} .ball.el-C{background:var(--el-C);color:var(--on-pine)} .ball.el-N{background:var(--el-N)} .ball.el-O{background:var(--el-O)} .ball.el-Cl{background:var(--el-Cl);font-size:.62rem}
+@media (max-width:620px){.reaction{grid-template-columns:1fr}.arrow{transform:rotate(90deg);justify-self:center}.side{flex-direction:row;flex-wrap:wrap;justify-content:center}.mol-card{min-width:110px}}
+
+/* Square ice */
+.oh{stroke:var(--ink);stroke-width:3px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.hbond{stroke:var(--muted);stroke-width:1.6px;vector-effect:non-scaling-stroke;stroke-dasharray:2 3}
+.hbond.out{stroke:#b9c4a8}
+.hydrogen circle{fill:var(--el-H);stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.hydrogen text{fill:var(--ink)}
+.link.fixed .hydrogen circle{fill:#cfd5bf}
+.link.hinted .hydrogen circle{stroke:var(--ochre);stroke-width:4px}
+.link .hydrogen{pointer-events:none}
+.oxygen .atom-disc{fill:var(--el-O)}
+
+/* How to play and Grown-ups */
+dialog.howto{border:1px solid var(--line);border-radius:16px;background:var(--card);color:var(--ink);max-width:min(560px,92vw);padding:18px 20px}
+dialog.howto::backdrop{background:rgba(41,68,57,.35)}
+dialog.howto h2{font-size:1.3rem;margin-bottom:6px}
+dialog.howto form{text-align:right;margin-top:8px}
+.notes h1{font-size:1.8rem;margin:4px 0 14px}
+.note{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
+.note h2{font-size:1.3rem}
+.note h3{font-family:inherit;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:12px 0 2px}
+.note p{margin:0 0 6px}
+.note details{margin-top:10px}
+@media (prefers-reduced-motion:reduce){.flash{animation:none;outline:3px solid var(--ochre)}}
