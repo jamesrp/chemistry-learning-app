@@ -1,0 +1,45 @@
+/* Bulb boards: posts and wires in ink, laid wires in pine, bulbs that glow
+   sun-yellow with rays for bright and dim, and badges in the same language. */
+.board-svg.bulbs{max-height:60vh}
+.bulbs .post{fill:var(--card);stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke}
+.bulbs .wire{stroke:var(--ink);stroke-width:3px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.bulbs .wire.laid{stroke:var(--pine);stroke-width:4.5px}
+.bulbs .gap.hinted .slot,.bulbs .gap.hinted .wire{stroke:var(--ochre);stroke-width:5px;stroke-dasharray:6 4}
+.bulbs .gap.hinted .hit{stroke:rgba(179,136,64,.18)}
+.bulbs .cell-body{fill:var(--sun);stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.bulbs .cell-band{fill:var(--ink)}
+.bulbs .cell-nub{fill:var(--ink)}
+.bulbs .cell-sign{fill:var(--ink);font-weight:700}
+.bulbs .battery.hot .cell-body{fill:var(--bad);animation:hot 0.9s ease-in-out infinite alternate}
+@keyframes hot{from{filter:none}to{filter:drop-shadow(0 0 3px #e2683f)}}
+.bulbs .bulb-glass{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke;fill:#e9e6da}
+.bulbs .filament{fill:none;stroke:var(--muted);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.bulbs .glow-bright .bulb-glass{fill:#ffd65c}
+.bulbs .glow-dim .bulb-glass{fill:#f7dc94}
+.bulbs .glow-faint .bulb-glass{fill:#f5ead0}
+.bulbs .glow-bright .filament,.bulbs .glow-dim .filament{stroke:#b5651d}
+.bulbs .ray{stroke:#e2a92e;stroke-width:2px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.bulbs .bulb.met .bulb-glass{stroke:var(--good);stroke-width:3px}
+.bulbs .tag{stroke:var(--muted);stroke-width:1.4px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.bulbs .badge-disc,.switch-card .badge-disc{stroke:var(--muted);stroke-width:1.2px;vector-effect:non-scaling-stroke;fill:#8d927f}
+.bulbs .badge.glow-bright .badge-disc,.switch-card .badge-disc.glow-bright{fill:#ffd65c}
+.bulbs .badge.glow-dim .badge-disc,.switch-card .badge-disc.glow-dim{fill:#f7dc94}
+.bulbs .badge.glow-faint .badge-disc,.switch-card .badge-disc.glow-faint{fill:#f5ead0}
+.bulbs .badge .ray,.switch-card .ray{stroke-width:1.4px}
+.bulbs .badge.met .badge-disc{stroke:var(--good);stroke-width:2.4px}
+.bulbs .lever,.switch-card .lever{stroke:var(--ink);stroke-width:3.4px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.bulbs .contact,.switch-card .contact{fill:var(--card);stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke}
+.bulbs .switch.on .lever{stroke:var(--pine)}
+.wire-tray{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;min-height:22px;margin:0 0 6px;border-radius:10px;padding:2px 6px}
+.wire-piece{width:30px;height:12px}
+.wire-piece line{stroke:var(--pine);stroke-width:4px;stroke-linecap:round}
+.wire-piece.used line{stroke:var(--line)}
+.switch-card{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.card-row{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:4px 12px;border-radius:12px;border:1px solid var(--line);background:var(--paper);box-shadow:0 2px 0 var(--line);cursor:pointer;color:var(--ink)}
+.card-row.now{background:var(--card);border-color:var(--ochre);box-shadow:0 2px 0 var(--ochre)}
+.card-row.met{background:var(--good-soft);border-color:#c5d7b8}
+.card-row.met.now{border-color:var(--good);box-shadow:0 2px 0 var(--good)}
+.card-switch{width:30px;height:21px}
+.card-badge{width:26px;height:26px}
+.card-arrow{color:var(--muted)}
+@media (prefers-reduced-motion:reduce){.bulbs .battery.hot .cell-body{animation:none}}

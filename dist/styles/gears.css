@@ -1,0 +1,49 @@
+/* gears board */
+.board-svg.gears{max-height:60vh}
+.gears .peg{fill:var(--muted)}
+.gears .peg.out-peg{fill:none;stroke:var(--ochre);stroke-width:2.5px;vector-effect:non-scaling-stroke;stroke-dasharray:3 3}
+.gears .peg-hit{fill:transparent}
+.gears .peg-hit:hover,.gears .peg-hit:focus-visible{fill:rgba(179,136,64,.14)}
+.gears .peg-hit.refused{fill:rgba(169,80,58,.22)}
+.gears .gear-body{stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.gears .size-1 .gear-body{fill:var(--sun)}
+.gears .size-2 .gear-body{fill:var(--sky)}
+.gears .size-3 .gear-body{fill:var(--rose)}
+.gears .size-4 .gear-body{fill:var(--leaf)}
+.gears .hub{fill:var(--ink)}
+.gears .mark{fill:var(--ink)}
+.gears .pointer{fill:var(--ink)}
+.gears .handle{stroke:var(--ink);stroke-width:3.5px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.gears .knob{fill:var(--ochre);stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke}
+.gears .crank .gear-body,.gears .fixed .gear-body{stroke-width:2.4px}
+.gears .gear.placed{cursor:pointer}
+.gears .gear.placed:focus-visible .gear-body{stroke:var(--ochre);stroke-width:3.5px}
+.gears .gear.jammed .gear-body{stroke:var(--bad);stroke-width:3px}
+.gears .gear.refused .gear-body{stroke:var(--bad);stroke-width:3.5px}
+.gears .spin,.gears .shake{transform-box:fill-box;transform-origin:center}
+.gears .spin.on{animation-name:gear-spin;animation-timing-function:linear;animation-iteration-count:infinite}
+.gears .jammed .shake{animation:gear-shake .11s ease-in-out 8 alternate}
+@keyframes gear-spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes gear-shake{from{transform:rotate(-3deg)}to{transform:rotate(3deg)}}
+.gears .turn-arrow{display:none}
+.gears .turn-arrow .arrow-arc,.gears .target-arrow .arrow-arc{fill:none;stroke:var(--ink);stroke-width:2.2px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.gears .turn-arrow .arrow-head,.gears .target-arrow .arrow-head{fill:var(--ink)}
+.gears .hint-ring{fill:none;stroke:var(--ochre);stroke-width:3px;vector-effect:non-scaling-stroke;stroke-dasharray:6 4;pointer-events:none}
+.gears .target-box{fill:var(--paper);stroke:var(--line);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.gears .target-speed{fill:var(--ink)}
+.gears .target.dir-ok .target-arrow .arrow-arc{stroke:var(--good)}
+.gears .target.dir-ok .target-arrow .arrow-head,.gears .target.speed-ok .target-speed{fill:var(--good)}
+.gears .target.ok .target-box{fill:var(--good-soft);stroke:var(--good);stroke-width:2.5px}
+.gear-tray .gear-chip{gap:8px;padding:4px 12px}
+.gear-chip .chip-gear{display:block}
+.gear-chip .chip-gear .gear-body{stroke:var(--ink);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.gear-chip.size-1 .gear-body{fill:var(--sun)} .gear-chip.size-2 .gear-body{fill:var(--sky)} .gear-chip.size-3 .gear-body{fill:var(--rose)} .gear-chip.size-4 .gear-body{fill:var(--leaf)}
+.gear-chip .hub{fill:var(--ink)}
+.gear-chip .pips{display:flex;flex-direction:column;gap:3px}
+.gear-chip .pip{width:7px;height:7px;border-radius:50%;background:var(--ink)}
+.gear-chip:disabled{opacity:.4;box-shadow:none;cursor:default}
+.gear-chip.hinted{outline:3px dashed var(--ochre);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){
+  .gears .spin.on,.gears .jammed .shake{animation:none}
+  .gears .turn-arrow{display:inline}
+}

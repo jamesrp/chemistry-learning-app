@@ -1,8 +1,8 @@
 # Chemistry learning app
 
-A chemistry puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
+A chemistry and physics puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a first playable prototype: five puzzle families and 61 levels, built from the shortlist in the research doc (`docs/research/puzzle-ideas.md`). It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a playable prototype: ten puzzle families and 129 levels on two shelves. The five chemistry families (61 levels) come from `docs/research/puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
@@ -20,6 +20,8 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 
 ## The puzzles
 
+### Chemistry
+
 | Family | Levels | The move | Solved when |
 |---|---|---|---|
 | **Valence bridges** (Lewis structures) | 15 | Tap between two atoms: single, double, triple, none | Every atom has its bond count (H 1, O 2, N 3, C 4) and the atoms form one molecule. Lone dots show what's left to bond; benzene asks for both of its structures. |
@@ -28,7 +30,17 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 | **Atom recycling** (balancing) | 12 | Break reactant molecules onto a bench; build products from bench atoms | The bench is empty with the smallest whole numbers. Three piles ask for the most product a fixed supply can make. |
 | **Square ice** (hydrogen bonds) | 12 | Tap near an oxygen to slide a hydrogen close to it | Every oxygen has exactly two close hydrogens. Edge hydrogens are given. |
 
-Every family has Undo, Restart and a Hint. Solved levels are remembered in the browser. **Grown-ups** (bottom of the home screen) has, per family, the chemistry, the mathematics, a teaching caution and a kitchen-table activity.
+### Physics
+
+| Family | Levels | The move | Solved when |
+|---|---|---|---|
+| **Bulb boards** (circuits) | 14 | Tap a gap between two posts to lay a wire; tap a switch to flip it | Every bulb glows like its badge (bright, dim, faint or dark) within the wire budget. Brightness is the real power through identical bulbs, solved exactly. Includes a balanced bridge and the two-way hallway switch. |
+| **Laser bench** (light and colour) | 14 | Place mirrors and splitters from the tray; tap to flip or take back | Every target is lit with its colour. Beams that meet add (red + green = yellow, all three = white). |
+| **Balance beams** (levers and mobiles) | 14 | Hang the tray's weights on hooks | Every beam balances: weight × distance is equal on both sides. Hard levels are mobiles with uneven arms and a loose string. |
+| **Gear trains** | 12 | Place gears from the tray on pegs | Each output turns the right way at the right speed. A ring of three meshing gears jams. |
+| **Overhang** (block stacking) | 14 | Slide a block left or right; the blocks above ride along | The stack reaches the flag without tipping. Some levels star a block that must get there, using the blocks above as counterweights. |
+
+Every family has Undo, Restart and a Hint. Solved levels are remembered in the browser. **Grown-ups** (bottom of the home screen) has, per family, the chemistry, the mathematics, a teaching caution and a kitchen-table activity (for physics, the science in place of the chemistry).
 
 ## Checks
 
@@ -38,22 +50,26 @@ npm test
 
 `npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene), and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit. Each reaction's smallest balance is the textbook equation, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7.
 
-`scripts/dom-smoke.mjs` plays all 61 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
+The physics suites do the same. Every bulb board's wire budget is the fewest that work and its answer is the only one, and the powers it claims (the bridge's dark middle, ¼ in series, 4/9 and 1/9) are computed exactly. Every laser tray is tight and its answers match an exhaustive solver. Balance-beam answers are counted by a solver and an independent brute force. Gear levels' witnesses, solution counts and decoys (wrong way, wrong speed, jam) match an exhaustive search. Overhang's maximum reaches for 2 to 6 blocks are confirmed, and every stored solution is the shortest. In every physics family, following hints from a wrong start reaches a solution.
+
+`scripts/dom-smoke.mjs` plays all 129 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
 
 ```sh
 npm install --no-save jsdom
 node scripts/dom-smoke.mjs
 ```
 
-Square ice boards are generated by `node scripts/make-ice.mjs`, which is seeded and rewrites `dist/data/ice-levels.js`.
+Square ice boards are generated by `node scripts/make-ice.mjs`, which is seeded and rewrites `dist/data/ice-levels.js`. `scripts/make-beams.mjs` and `scripts/make-overhang.mjs` re-solve their families' levels and rewrite the stored answers. Each physics family's play-through lives in `scripts/smoke/<family>.mjs`.
 
 ## Files
 
 | Path | What |
 |---|---|
 | `dist/chem/` | The chemistry and its checkers, with no DOM: bonds and the bridges solver, isomer canonical forms and enumeration, ions and formulas, reactions and balancing, the ice rules and solver |
+| `dist/phys/` | The physics and its solvers, with no DOM: exact circuit solving, beam tracing and colour mixing, turning sums, gear meshing and speeds, stack stability |
 | `dist/data/` | Levels for each family |
 | `dist/families/` | One board per family; `index.js` lists them |
+| `dist/styles/` | Each physics family's look |
 | `dist/main.js`, `dist/ui.js`, `dist/style.css` | Home, play screen, Grown-ups, shared drawing helpers, the look |
 | `dist/notes.js` | Grown-up notes |
 | `tests/` | `node --test` suites |

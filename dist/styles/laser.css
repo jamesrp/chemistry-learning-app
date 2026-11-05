@@ -1,0 +1,33 @@
+/* Laser bench: a paper grid, ink walls, light drawn as bright lines with an
+   ink casing so yellow and white read on paper. */
+.board-svg.laser{max-height:60vh}
+.laser .square{fill:var(--card);stroke:var(--line);stroke-width:1px;vector-effect:non-scaling-stroke}
+.laser .wall{fill:#cdc6ae;stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.laser .hatch{stroke:var(--ink);stroke-width:1.2px;vector-effect:non-scaling-stroke;opacity:.55}
+.laser .beam-case{stroke:var(--ink);stroke-width:6.5px;stroke-linecap:round}
+.laser .beam{stroke-width:3.6px;stroke-linecap:round}
+.laser .piece-case{stroke:var(--ink);stroke-width:7.5px;stroke-linecap:round}
+.laser .mirror .piece-face{stroke:#e8eef0;stroke-width:2.2px;stroke-linecap:round}
+.laser .splitter .piece-case{stroke-width:7px}
+.laser .splitter .piece-face{stroke:var(--sky);stroke-width:4.4px;stroke-linecap:round;stroke-dasharray:3.2 2.6}
+.laser .piece.ghost .piece-case{stroke:var(--ochre);opacity:.75}
+.laser .piece.ghost .piece-face{stroke:#f6e7b9}
+.laser .lamp-body{fill:var(--pine-deep);stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.laser .lamp-nose{fill:var(--pine-deep);stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.laser .lamp-lens{stroke:var(--on-pine);stroke-width:2px;vector-effect:non-scaling-stroke}
+.laser .target-case{fill:none;stroke:var(--ink);stroke-width:7.5px}
+.laser .target-ring{fill:none;stroke-width:4.5px}
+.laser .target.dark .target-core{fill:var(--card)}
+.laser .target.lit .target-core,.laser .target.wrong .target-core{stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke}
+.laser .ray-case{stroke:var(--ink);stroke-width:4.6px;stroke-linecap:round}
+.laser .ray{stroke-width:2.4px;stroke-linecap:round}
+.laser .hint-mark{fill:rgba(239,199,110,.28);stroke:var(--ochre);stroke-width:2.5px;stroke-dasharray:6 4;vector-effect:non-scaling-stroke}
+.laser .cell-hit{fill:transparent}
+.laser .cell-hit:hover{fill:rgba(41,68,57,.05)}
+.laser .cell-hit:focus-visible{fill:rgba(179,136,64,.18)}
+.laser-tray .piece-chip{gap:6px;padding:4px 12px}
+.laser-tray .piece-chip.empty{opacity:.5}
+.laser-tray .piece-icon{width:34px;height:34px}
+.laser-tray .piece-icon .piece-case{stroke:var(--ink);stroke-width:7px;stroke-linecap:round}
+.laser-tray .piece-icon .mirror .piece-face{stroke:#e8eef0;stroke-width:2.2px;stroke-linecap:round}
+.laser-tray .piece-icon .splitter .piece-face{stroke:var(--sky);stroke-width:4.4px;stroke-linecap:round;stroke-dasharray:3.2 2.6}

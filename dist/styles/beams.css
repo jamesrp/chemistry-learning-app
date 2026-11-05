@@ -1,0 +1,37 @@
+/* beams board */
+.fam-beams .board-svg.beams{max-height:54vh}
+.fam-beams .ceiling{fill:var(--line);stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.fam-beams .rod{stroke:var(--ink);stroke-width:2.5px;vector-effect:non-scaling-stroke}
+.fam-beams .bar{fill:#f3e3b8;stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.fam-beams .beam.level .bar{fill:var(--good-soft);stroke:var(--good);stroke-width:3.5px}
+.fam-beams .hole{fill:var(--ink)}
+.fam-beams .dist{fill:var(--muted)}
+.fam-beams .beam.level .dist{fill:var(--good)}
+.fam-beams .pin{fill:var(--ink)}
+.fam-beams .string{stroke:var(--ink);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.fam-beams .knot{fill:var(--ink)}
+.fam-beams .hanger.loose .knot{fill:var(--ochre);stroke:var(--ink);stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.fam-beams .hanger.loose .string{stroke:var(--ochre);stroke-width:3px}
+.fam-beams .hanger.chosen .knot{fill:var(--pine)}
+.fam-beams .hanger.chosen .string{stroke:var(--pine);stroke-width:4px}
+.fam-beams .hanger.hinted .string{stroke:var(--ochre);stroke-width:4px;stroke-dasharray:6 4}
+.fam-beams .weight .loop{fill:none;stroke:var(--ink);stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.fam-beams .weight .block{fill:var(--sun);stroke:var(--ink);stroke-width:1.8px;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.fam-beams .weight .stamp{fill:var(--ink);font-weight:700}
+.fam-beams .weight.fixed .block{fill:var(--el-C)}
+.fam-beams .weight.fixed .stamp{fill:var(--on-pine)}
+.fam-beams .weight.hinted .block{stroke:var(--ochre);stroke-width:4px;stroke-dasharray:5 3}
+.fam-beams .weight.tap:hover .block{fill:#f5d68c}
+.fam-beams .weight.tap:focus-visible .block{stroke:var(--ochre);stroke-width:3.5px}
+.fam-beams .hook .drop{stroke:#c3cbb2;stroke-width:1.3px;stroke-dasharray:2 3;vector-effect:non-scaling-stroke}
+.fam-beams .hook .spot{fill:var(--card);stroke:#b9c4a8;stroke-width:1.3px;vector-effect:non-scaling-stroke}
+.fam-beams .hook.ready .drop{stroke:var(--pine)}
+.fam-beams .hook.ready .spot{fill:var(--good-soft);stroke:var(--pine);stroke-width:2px}
+.fam-beams .hook.hinted .drop{stroke:var(--ochre);stroke-width:2.5px;stroke-dasharray:4 3}
+.fam-beams .hook.hinted .spot{fill:#f6e7b9;stroke:var(--ochre);stroke-width:3px}
+.fam-beams .beam-tray{margin:10px 0 0;min-height:60px;align-items:flex-end}
+.fam-beams .beam-tray[hidden]{display:none}
+.fam-beams .beam-chip{padding:4px 8px;min-width:56px;min-height:60px}
+.fam-beams .beam-chip.hinted{border-color:var(--ochre);box-shadow:0 0 0 3px var(--ochre)}
+.fam-beams .chip-weight{display:block}
+.fam-beams .chip-weight .weight .stamp{text-anchor:middle;font-family:var(--display)}
