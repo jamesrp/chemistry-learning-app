@@ -2,7 +2,7 @@
 
 A chemistry puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a first playable prototype: five puzzle families and 61 levels, built from the shortlist in the research doc (`docs/research/puzzle-ideas.md`, in its own pull request). It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a first playable prototype: five puzzle families and 61 levels, built from the shortlist in the research doc (`docs/research/puzzle-ideas.md`). It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
@@ -12,7 +12,11 @@ Requires Node.js 22 or later. Nothing to install.
 npm start
 ```
 
-Open http://127.0.0.1:4188. The server also listens on the local network, so an iPad on the same Wi-Fi can open `http://<your-mac's-address>:4188`. `PORT=4200 npm start` picks another port. There is no offline support or home-screen install yet, and nothing is deployed.
+Open http://127.0.0.1:4188. The server also listens on the local network, so an iPad on the same Wi-Fi can open `http://<your-mac's-address>:4188`. `PORT=4200 npm start` picks another port. There is no offline support or home-screen install yet.
+
+## Published copy
+
+The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every push to `main` runs the tests and republishes `dist/` through `.github/workflows/pages.yml`; a failing test stops the publish. To republish by hand, run the workflow from the Actions tab. Progress is kept in each browser, separately from a local copy.
 
 ## The puzzles
 
