@@ -13,7 +13,9 @@ h1,h2,h3{font-family:var(--display);font-weight:400;margin:0}
 /* Home */
 .app-title{font-size:2rem;margin:6px 0 18px}
 .family{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:0 3px 0 var(--line);padding:14px 16px 10px;margin-bottom:16px}
-.family h2{font-size:1.35rem;margin-bottom:8px}
+.shelf-title{font-size:1.05rem;font-family:inherit;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);margin:22px 4px 10px}
+.app-title+.shelf-title{margin-top:0}
+.family h3{font-size:1.35rem;margin-bottom:8px}
 .tier{display:flex;align-items:center;gap:12px;margin:6px 0}
 .tier-label{flex:0 0 4.6em;color:var(--muted);font-size:.85rem}
 .tier-levels{display:flex;flex-wrap:wrap;gap:8px}
@@ -138,6 +140,7 @@ dialog.howto::backdrop{background:rgba(41,68,57,.35)}
 dialog.howto h2{font-size:1.3rem;margin-bottom:6px}
 dialog.howto form{text-align:right;margin-top:8px}
 .notes h1{font-size:1.8rem;margin:4px 0 14px}
+.notes .shelf-title{margin-top:18px}
 .note{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px 16px;margin-bottom:14px}
 .note h2{font-size:1.3rem}
 .note h3{font-family:inherit;font-weight:700;font-size:.85rem;text-transform:uppercase;letter-spacing:.04em;color:var(--muted);margin:12px 0 2px}

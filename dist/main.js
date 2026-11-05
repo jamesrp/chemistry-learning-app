@@ -1,4 +1,4 @@
-// Chem Studio: the home screen, a play screen per level and the Grown-ups
+// Chem Studio: the home screen (chemistry and physics shelves), a play screen per level and the Grown-ups
 // notes, routed by the address hash (#/bridges/3, #/grownups).
 import {FAMILIES, familyById} from './families/index.js';
 import {NOTES} from './notes.js';
@@ -7,6 +7,8 @@ import {h} from './ui.js';
 
 const app = document.getElementById('app');
 const TIERS = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard']];
+const SHELVES = [['chemistry', 'Chemistry'], ['physics', 'Physics']];
+const shelfOf = fam => fam.shelf || 'chemistry';
 let current = null;
 
 function route() {
@@ -21,18 +23,23 @@ function route() {
 function home() {
   document.title = 'Chem Studio';
   const main = h('main', {class: 'shell home'}, h('h1', {class: 'app-title'}, 'Chem Studio'));
-  for (const fam of FAMILIES) {
-    const section = h('section', {class: 'family'}, h('h2', {}, fam.name));
-    for (const [tier, label] of TIERS) {
-      const levels = fam.levels.map((lv, i) => [lv, i]).filter(([lv]) => lv.tier === tier);
-      if (!levels.length) continue;
-      section.append(h('div', {class: 'tier'}, h('span', {class: 'tier-label'}, label),
-        h('div', {class: 'tier-levels'}, levels.map(([lv, i]) => h('a', {
-          class: `level ${isSolved(fam.id, lv.id) ? 'solved' : ''}`, href: `#/${fam.id}/${i + 1}`,
-          'aria-label': `${fam.name} ${i + 1}${isSolved(fam.id, lv.id) ? ', solved' : ''}`,
-        }, String(i + 1))))));
+  for (const [shelf, label] of SHELVES) {
+    const fams = FAMILIES.filter(fam => shelfOf(fam) === shelf);
+    if (!fams.length) continue;
+    main.append(h('h2', {class: 'shelf-title'}, label));
+    for (const fam of fams) {
+      const section = h('section', {class: 'family'}, h('h3', {}, fam.name));
+      for (const [tier, tierLabel] of TIERS) {
+        const levels = fam.levels.map((lv, i) => [lv, i]).filter(([lv]) => lv.tier === tier);
+        if (!levels.length) continue;
+        section.append(h('div', {class: 'tier'}, h('span', {class: 'tier-label'}, tierLabel),
+          h('div', {class: 'tier-levels'}, levels.map(([lv, i]) => h('a', {
+            class: `level ${isSolved(fam.id, lv.id) ? 'solved' : ''}`, href: `#/${fam.id}/${i + 1}`,
+            'aria-label': `${fam.name} ${i + 1}${isSolved(fam.id, lv.id) ? ', solved' : ''}`,
+          }, String(i + 1))))));
+      }
+      main.append(section);
     }
-    main.append(section);
   }
   main.append(h('p', {class: 'foot'}, h('a', {href: '#/grownups'}, 'Grown-ups')));
   app.replaceChildren(main);
@@ -90,14 +97,19 @@ function grownups() {
   const main = h('main', {class: 'shell notes'},
     h('header', {class: 'play-top'}, h('a', {class: 'tool home-link', href: '#/', 'aria-label': 'All puzzles'}, '←')),
     h('h1', {}, 'Grown-ups'));
-  for (const fam of FAMILIES) {
-    const n = NOTES[fam.id];
-    main.append(h('section', {class: 'note'}, h('h2', {}, fam.name),
-      h('h3', {}, 'The chemistry'), h('p', {}, n.chemistry),
-      h('h3', {}, 'The mathematics'), h('p', {}, n.maths),
-      h('h3', {}, 'Careful'), h('p', {}, n.caution),
-      h('h3', {}, 'At the kitchen table'), h('p', {}, n.kitchen),
-      h('details', {}, h('summary', {}, 'How to play'), ...fam.howTo.map(line => h('p', {}, line)))));
+  for (const [shelf, label] of SHELVES) {
+    const fams = FAMILIES.filter(fam => shelfOf(fam) === shelf);
+    if (!fams.length) continue;
+    main.append(h('h2', {class: 'shelf-title'}, label));
+    for (const fam of fams) {
+      const n = fam.notes || NOTES[fam.id];
+      main.append(h('section', {class: 'note'}, h('h2', {}, fam.name),
+        h('h3', {}, shelf === 'physics' ? 'The physics' : 'The chemistry'), h('p', {}, n.science || n.chemistry),
+        h('h3', {}, 'The mathematics'), h('p', {}, n.maths),
+        h('h3', {}, 'Careful'), h('p', {}, n.caution),
+        h('h3', {}, 'At the kitchen table'), h('p', {}, n.kitchen),
+        h('details', {}, h('summary', {}, 'How to play'), ...fam.howTo.map(line => h('p', {}, line)))));
+    }
   }
   const clear = h('button', {type: 'button', class: 'secondary', onclick: () => {
     if (clear.dataset.armed) { clearProgress(); clear.textContent = 'Cleared'; clear.disabled = true; return; }
