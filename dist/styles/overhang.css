@@ -1,1 +1,33 @@
-/* overhang board */
+/* Overhang: a side view of a table edge, blocks in sky, leaf and rose, the
+   picked block outlined in pine, the hint and balance-at-the-edge in ochre. */
+.board-svg.overhang{max-height:56vh}
+.ov-floor{stroke:var(--line);stroke-width:2px;vector-effect:non-scaling-stroke}
+.ov-table{fill:#e8d6a6;stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.ov-leg{fill:#d9c391;stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke}
+.ov-tick{stroke:#b9c4a8;stroke-width:1px;vector-effect:non-scaling-stroke}
+.ov-tick.half{stroke:#9fae8c}
+.ov-tick.whole{stroke:var(--muted);stroke-width:1.5px}
+.ov-pole{stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke;stroke-dasharray:4 3}
+.ov-pennant{fill:var(--rose);stroke:var(--ink);stroke-width:1.5px;vector-effect:non-scaling-stroke;stroke-linejoin:round}
+.ov-flag.starred .ov-pennant{fill:var(--sun)}
+.ov-flag.won .ov-pennant{fill:var(--good)}
+.ov-flag.won .ov-pole{stroke:var(--good);stroke-dasharray:none}
+.ov-body{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.ov-block.c0 .ov-body{fill:var(--sky)} .ov-block.c1 .ov-body{fill:var(--leaf)} .ov-block.c2 .ov-body{fill:var(--rose)}
+.ov-block.starred .ov-body{fill:var(--sun)}
+.ov-star{fill:var(--ink)}
+.ov-block.selected .ov-body{stroke:var(--pine);stroke-width:4px}
+.ov-block.hinted .ov-body{stroke:var(--ochre);stroke-width:4px;stroke-dasharray:6 3}
+.ov-block:focus-visible .ov-body{stroke:var(--ochre);stroke-width:4px}
+.ov-hint-arrow{fill:var(--ochre);stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke}
+.ov-com{fill:var(--ink);pointer-events:none}
+.ov-com.edge{fill:var(--ochre);stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke}
+.ov-com.off{fill:var(--bad)}
+.ov-tipping .ov-body{stroke:var(--bad)}
+.ov-side{fill:transparent}
+.ov-side:hover{fill:rgba(41,68,57,.05)}
+.ov-side:focus-visible{fill:rgba(179,136,64,.18)}
+.ov-arrows{display:flex;justify-content:center;gap:28px;margin-top:10px}
+.ov-move{min-width:96px;min-height:56px;border-radius:14px;border:1px solid var(--line);background:var(--card);box-shadow:0 2px 0 var(--line);color:var(--ink);font-size:1.5rem;cursor:pointer}
+.ov-move:active{transform:translateY(1px);box-shadow:0 1px 0 var(--line)}
+.ov-move:disabled{opacity:.4;box-shadow:none;cursor:default}
