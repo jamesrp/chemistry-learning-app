@@ -30,7 +30,8 @@ export function fromGrid(rows, {extra = [], cut = [], step = 24} = {}) {
   return {atoms, edges};
 }
 
-export const edgeCap = (board, i) => Math.min(3, bondsOf(board.atoms[board.edges[i][0]][0]), bondsOf(board.atoms[board.edges[i][1]][0]));
+// A board may set `maxOrder` (ring boards use 2: single or double only).
+export const edgeCap = (board, i) => Math.min(board.maxOrder || 3, bondsOf(board.atoms[board.edges[i][0]][0]), bondsOf(board.atoms[board.edges[i][1]][0]));
 
 export function loads(board, orders) {
   const load = board.atoms.map(() => 0);
@@ -54,7 +55,14 @@ export function status(board, orders) {
   return {atoms, allFull, connected: joined, solved: allFull && joined};
 }
 
-export const legalOrders = (board, orders) => orders.length === board.edges.length && orders.every((o, i) => Number.isInteger(o) && o >= 0 && o <= edgeCap(board, i));
+// A board may also set `minOrder`: ring boards start with every line a
+// single bond, and the puzzle is where the double bonds go.
+export const minOrder = board => board.minOrder || 0;
+export const startOrders = board => board.edges.map(() => minOrder(board));
+// The next order when a line is tapped: up to its cap, then back to the start.
+export const nextOrder = (board, i, o) => (o >= edgeCap(board, i) ? minOrder(board) : o + 1);
+
+export const legalOrders = (board, orders) => orders.length === board.edges.length && orders.every((o, i) => Number.isInteger(o) && o >= minOrder(board) && o <= edgeCap(board, i));
 
 // Every solution, by backtracking over the edges with each atom's remaining
 // bond count as the bound. Small boards make this exhaustive.
@@ -64,12 +72,12 @@ export function solveAll(board, limit = 5000) {
   // atom whose edges are all decided can be checked at once.
   const last = board.atoms.map(() => -1);
   board.edges.forEach(([u, v], i) => { last[u] = i; last[v] = i; });
-  const left = need.slice(), orders = new Array(n).fill(0), out = [];
+  const lo = minOrder(board), left = need.slice(), orders = new Array(n).fill(0), out = [];
   function go(i) {
     if (out.length >= limit) return;
     if (i === n) { if (left.every(x => x === 0) && connected(board, orders)) out.push(orders.slice()); return; }
     const [u, v] = board.edges[i], cap = Math.min(edgeCap(board, i), left[u], left[v]);
-    for (let o = cap; o >= 0; o--) {
+    for (let o = cap; o >= lo; o--) {
       orders[i] = o; left[u] -= o; left[v] -= o;
       if (!((last[u] === i && left[u] !== 0) || (last[v] === i && left[v] !== 0))) go(i + 1);
       left[u] += o; left[v] += o;

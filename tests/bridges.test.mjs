@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {BRIDGE_LEVELS} from '../dist/data/bridges-levels.js';
-import {solveAll, status, hintMove, edgeCap, legalOrders} from '../dist/chem/bridges.js';
+import {solveAll, status, hintMove, edgeCap, legalOrders, startOrders, nextOrder} from '../dist/chem/bridges.js';
 
 test('every board has exactly the structures it claims', () => {
   for (const level of BRIDGE_LEVELS) {
@@ -37,7 +37,7 @@ test('an empty board is not solved, and a full but split board is not solved', (
 
 test('following hints from an empty board reaches a solution', () => {
   for (const level of BRIDGE_LEVELS) {
-    const sols = solveAll(level), orders = level.edges.map(() => 0);
+    const sols = solveAll(level), orders = startOrders(level);
     for (let step = 0; step < 50 && !status(level, orders).solved; step++) {
       const move = hintMove(orders, sols);
       assert.ok(move, level.id);
@@ -66,5 +66,21 @@ test('every board has the atoms its formula says', async () => {
     const counts = {};
     for (const [el] of level.atoms) counts[el] = (counts[el] || 0) + 1;
     assert.deepEqual(counts, atomsIn(level.formula), level.id);
+  }
+});
+
+test('ring boards: every line is a bond, and the double bonds can go the Kekulé number of ways', () => {
+  // Kekulé structures: benzene 2, naphthalene 3, anthracene 4, phenanthrene 5, pyrene 6.
+  const kekule = {benzene: 2, pyridine: 2, naphthalene: 3, anthracene: 4, phenanthrene: 5, pyrene: 6};
+  for (const [id, n] of Object.entries(kekule)) {
+    const level = BRIDGE_LEVELS.find(l => l.id === id);
+    assert.equal(solveAll(level).length, n, id);
+  }
+  for (const level of BRIDGE_LEVELS.filter(l => l.minOrder)) {
+    for (const sol of solveAll(level)) assert.ok(sol.every(o => o >= 1 && o <= 2), level.id);
+    // Tapping a line goes single, double, single.
+    const cc = level.edges.findIndex(([u, v]) => level.atoms[u][0] === 'C' && level.atoms[v][0] === 'C');
+    assert.equal(nextOrder(level, cc, 1), 2);
+    assert.equal(nextOrder(level, cc, 2), 1);
   }
 });

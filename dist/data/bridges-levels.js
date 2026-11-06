@@ -17,6 +17,36 @@ function sixRing(ring = ['C', 'C', 'C', 'C', 'C', 'C']) {
   return {atoms, edges};
 }
 
+// Hexagons of carbon sharing edges, as in naphthalene: `centers` are ring
+// centres in steps of one ring across (dx) and one row down (dy). A carbon in
+// only one ring carries a hydrogen, pointing away from that ring.
+function fusedRings(centers) {
+  const R = 26, W = R * Math.sqrt(3), atoms = [], edges = [], at = new Map(), ringsOf = [];
+  const place = (x, y) => {
+    const key = `${Math.round(x)},${Math.round(y)}`;
+    if (!at.has(key)) { at.set(key, atoms.length); atoms.push(['C', +x.toFixed(2), +y.toFixed(2)]); ringsOf.push([]); }
+    return at.get(key);
+  };
+  const seen = new Set();
+  for (const [dx, dy] of centers) {
+    const cx = dx * W + dy * W / 2, cy = dy * 1.5 * R;
+    const ring = [0, 1, 2, 3, 4, 5].map(k => place(cx + R * Math.cos(Math.PI / 2 + k * Math.PI / 3), cy + R * Math.sin(Math.PI / 2 + k * Math.PI / 3)));
+    ring.forEach((a, k) => {
+      ringsOf[a].push([cx, cy]);
+      const b = ring[(k + 1) % 6], key = [a, b].sort((p, q) => p - q).join('-');
+      if (!seen.has(key)) { seen.add(key); edges.push([a, b]); }
+    });
+  }
+  const carbons = atoms.length;
+  for (let a = 0; a < carbons; a++) {
+    if (ringsOf[a].length !== 1) continue;
+    const [cx, cy] = ringsOf[a][0], [, x, y] = atoms[a], d = Math.hypot(x - cx, y - cy);
+    edges.push([a, atoms.length]);
+    atoms.push(['H', +(cx + (x - cx) * 48 / d).toFixed(2), +(cy + (y - cy) * 48 / d).toFixed(2)]);
+  }
+  return {atoms, edges, minOrder: 1, maxOrder: 2};
+}
+
 export const BRIDGE_LEVELS = [
   {id: 'water', tier: 'easy', name: 'water', formula: 'H₂O', solutions: 1, ...fromGrid(['O H', 'H .'])},
   {id: 'ammonia', tier: 'easy', name: 'ammonia', formula: 'NH₃', solutions: 1, ...fromGrid(['. H .', 'H N H'])},
@@ -60,4 +90,9 @@ export const BRIDGE_LEVELS = [
   {id: 'pyridine', tier: 'hard', name: 'pyridine (benzene with a nitrogen in the ring)', formula: 'C₅H₅N', solutions: 2, findAll: true, ...sixRing(['N', 'C', 'C', 'C', 'C', 'C'])},
   // Both Kekulé structures: the board is solved when both have been found.
   {id: 'benzene', tier: 'hard', name: 'benzene', formula: 'C₆H₆', solutions: 2, findAll: true, ...sixRing()},
+  // Rings joined edge to edge: find every pattern of double bonds.
+  {id: 'naphthalene', tier: 'hard', name: 'naphthalene (mothballs)', formula: 'C₁₀H₈', solutions: 3, findAll: true, ...fusedRings([[0, 0], [1, 0]])},
+  {id: 'anthracene', tier: 'hard', name: 'anthracene', formula: 'C₁₄H₁₀', solutions: 4, findAll: true, ...fusedRings([[0, 0], [1, 0], [2, 0]])},
+  {id: 'phenanthrene', tier: 'hard', name: 'phenanthrene', formula: 'C₁₄H₁₀', solutions: 5, findAll: true, ...fusedRings([[0, 0], [1, 0], [1, 1]])},
+  {id: 'pyrene', tier: 'hard', name: 'pyrene', formula: 'C₁₆H₁₀', solutions: 6, findAll: true, ...fusedRings([[0, 0], [1, 0], [0, 1], [1, 1]])},
 ];
