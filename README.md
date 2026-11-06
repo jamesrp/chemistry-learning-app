@@ -2,7 +2,7 @@
 
 A chemistry and physics puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a playable prototype: ten puzzle families and 190 levels on two shelves. The five chemistry families (122 levels) come from `docs/research/puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a playable prototype: ten puzzle families and 190 levels on two shelves. The five chemistry families (122 levels) come from `docs/research/puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. Ideas for what comes next (magnetism, metal lattices, semiconductors) are in `docs/research/materials-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
