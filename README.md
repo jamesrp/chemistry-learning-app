@@ -2,7 +2,7 @@
 
 A chemistry and physics puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a playable prototype: ten puzzle families and 129 levels on two shelves. The five chemistry families (61 levels) come from `docs/research/puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a playable prototype: ten puzzle families and 186 levels on two shelves. The five chemistry families (118 levels) come from `docs/research/puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
@@ -24,10 +24,10 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 
 | Family | Levels | The move | Solved when |
 |---|---|---|---|
-| **Valence bridges** (Lewis structures) | 15 | Tap between two atoms: single, double, triple, none | Every atom has its bond count (H 1, O 2, N 3, C 4) and the atoms form one molecule. Lone dots show what's left to bond; benzene asks for both of its structures. |
-| **Isomer hunt** | 9 | Place the bag's heavy atoms on a lattice and bond them; hydrogens fill in (CH₃, OH) | Every distinct molecule is kept. Copies, bent or flipped, are refused; **That's all** checks the count. |
-| **Charge jigsaw** (ions) | 13 | Tap ions onto two rails; each rod is as long as its charge | The rails are the same length with the fewest ions (the formula unit). Two Hard trays ask for every compound. |
-| **Atom recycling** (balancing) | 12 | Break reactant molecules onto a bench; build products from bench atoms | The bench is empty with the smallest whole numbers. Three piles ask for the most product a fixed supply can make. |
+| **Valence bridges** (Lewis structures) | 37 | Tap between two atoms: single, double, triple, none | Every atom has its bond count (H 1, O 2, N 3, C 4, S 2, Cl 1) and the atoms form one molecule. Lone dots show what's left to bond; benzene and pyridine ask for both of their structures. |
+| **Isomer hunt** | 17 | Place the bag's heavy atoms (C, N, O, Cl) on a lattice and bond them; hydrogens fill in (CH₃, OH) | Every distinct molecule is kept, and named as it is kept. Copies, bent or flipped, are refused; **That's all** checks the count. |
+| **Charge jigsaw** (ions) | 33 | Tap ions onto two rails; each rod is as long as its charge | The rails are the same length with the fewest ions (the formula unit), and the compound is named. Four Hard trays ask for every compound, one with both iron ions. |
+| **Atom recycling** (balancing) | 19 | Break reactant molecules onto a bench; build products from bench atoms | The bench is empty with the smallest whole numbers, and the equation is said in words. Three piles ask for the most product a fixed supply can make. |
 | **Square ice** (hydrogen bonds) | 12 | Tap near an oxygen to slide a hydrogen close to it | Every oxygen has exactly two close hydrogens. Edge hydrogens are given. |
 
 ### Physics
@@ -48,11 +48,11 @@ Every family has Undo, Restart and a Hint. Solved levels are remembered in the b
 npm test
 ```
 
-`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene), and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit. Each reaction's smallest balance is the textbook equation, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7.
+`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene and pyridine) and the atoms its formula says, and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit, and its name starts with the compound's name (cation, then anion, with iron(II)/iron(III) and copper(I)/copper(II)). Each reaction's smallest balance is the textbook equation, every molecule picture has its formula's atoms and each atom its bond count, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7.
 
 The physics suites do the same. Every bulb board's wire budget is the fewest that work and its answer is the only one, and the powers it claims (the bridge's dark middle, ¼ in series, 4/9 and 1/9) are computed exactly. Every laser tray is tight and its answers match an exhaustive solver. Balance-beam answers are counted by a solver and an independent brute force. Gear levels' witnesses, solution counts and decoys (wrong way, wrong speed, jam) match an exhaustive search. Overhang's maximum reaches for 2 to 6 blocks are confirmed, and every stored solution is the shortest. In every physics family, following hints from a wrong start reaches a solution.
 
-`scripts/dom-smoke.mjs` plays all 129 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
+`scripts/dom-smoke.mjs` plays all 186 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
 
 ```sh
 npm install --no-save jsdom

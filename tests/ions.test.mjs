@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {ION_LEVELS} from '../dist/data/ion-levels.js';
-import {IONS, formulaUnit, formulaOfIons, checkCompound, allCompounds, totalCharge, compoundKey} from '../dist/chem/ions.js';
+import {IONS, formulaUnit, formulaOfIons, checkCompound, allCompounds, totalCharge, compoundKey, compoundName} from '../dist/chem/ions.js';
 
 test('every target is its tray’s formula unit, neutral and in lowest terms', () => {
   for (const level of ION_LEVELS.filter(l => l.target)) {
@@ -37,4 +37,27 @@ test('find-all trays: every cation with every anion, all different', () => {
     assert.equal(new Set(all.map(compoundKey)).size, all.length);
     for (const c of all) assert.ok(checkCompound(c).ok);
   }
+});
+
+test('each target’s name starts with its compound’s name', () => {
+  for (const level of ION_LEVELS.filter(l => l.target)) assert.ok(level.name.startsWith(compoundName(level.target)), `${level.id}: ${level.name}`);
+  assert.equal(compoundName({Fe3: 2, O: 3}), 'iron(III) oxide');
+  assert.equal(compoundName({Cl: 2, Fe2: 1}), 'iron(II) chloride');
+  assert.equal(compoundName({NH4: 2, SO4: 1}), 'ammonium sulfate');
+});
+
+test('more formulas, written the usual way', () => {
+  assert.equal(formulaOfIons({Na: 1, HCO3: 1}), 'NaHCO₃');
+  assert.equal(formulaOfIons({Mg: 1, OH: 2}), 'Mg(OH)₂');
+  assert.equal(formulaOfIons({Fe3: 2, SO4: 3}), 'Fe₂(SO₄)₃');
+  assert.equal(formulaOfIons({NH4: 3, PO4: 1}), '(NH₄)₃PO₄');
+  assert.equal(formulaOfIons({Cu: 2, O: 1}), 'Cu₂O');
+  assert.equal(formulaOfIons({Al: 1, N: 1}), 'AlN');
+});
+
+test('every ion has a name, and every level’s ids are unique', () => {
+  for (const [id, ion] of Object.entries(IONS)) assert.ok(ion.name, id);
+  assert.equal(new Set(ION_LEVELS.map(l => l.id)).size, ION_LEVELS.length);
+  const order = ION_LEVELS.map(l => ['easy', 'medium', 'hard'].indexOf(l.tier));
+  assert.deepEqual(order, [...order].sort((a, b) => a - b));
 });

@@ -20,6 +20,16 @@ export const MOLECULES = {
   CO: {formula: 'CO', name: 'carbon monoxide', draw: [['C', 0, 0], ['O', 12, 0]], bonds: [[0, 1, 3]]},
   C3H8: {formula: 'C₃H₈', name: 'propane', draw: [['C', -10, 0], ['C', 0, 0], ['C', 10, 0], ['H', -20, 0], ['H', -10, -10], ['H', -10, 10], ['H', 0, -10], ['H', 0, 10], ['H', 10, -10], ['H', 10, 10], ['H', 20, 0]],
     bonds: [[0, 1, 1], [1, 2, 1], [0, 3, 1], [0, 4, 1], [0, 5, 1], [1, 6, 1], [1, 7, 1], [2, 8, 1], [2, 9, 1], [2, 10, 1]]},
+  C2H4: {formula: 'C₂H₄', name: 'ethene', draw: [['C', -6, 0], ['C', 6, 0], ['H', -14, -7], ['H', -14, 7], ['H', 14, -7], ['H', 14, 7]],
+    bonds: [[0, 1, 2], [0, 2, 1], [0, 3, 1], [1, 4, 1], [1, 5, 1]]},
+  C2H6: {formula: 'C₂H₆', name: 'ethane', draw: [['C', -6, 0], ['C', 6, 0], ['H', -16, 0], ['H', -6, -10], ['H', -6, 10], ['H', 16, 0], ['H', 6, -10], ['H', 6, 10]],
+    bonds: [[0, 1, 1], [0, 2, 1], [0, 3, 1], [0, 4, 1], [1, 5, 1], [1, 6, 1], [1, 7, 1]]},
+  CH3OH: {formula: 'CH₃OH', name: 'methanol', draw: [['C', 0, 0], ['O', 11, 0], ['H', 20, 6], ['H', -10, 0], ['H', 0, -10], ['H', 0, 10]],
+    bonds: [[0, 1, 1], [1, 2, 1], [0, 3, 1], [0, 4, 1], [0, 5, 1]]},
+  C2H5OH: {formula: 'C₂H₅OH', name: 'ethanol', draw: [['C', -10, 0], ['C', 0, 0], ['O', 11, 0], ['H', 20, 6], ['H', -20, 0], ['H', -10, -10], ['H', -10, 10], ['H', 0, -10], ['H', 0, 10]],
+    bonds: [[0, 1, 1], [1, 2, 1], [2, 3, 1], [0, 4, 1], [0, 5, 1], [0, 6, 1], [1, 7, 1], [1, 8, 1]]},
+  N2H4: {formula: 'N₂H₄', name: 'hydrazine', draw: [['N', -6, 0], ['N', 6, 0], ['H', -13, -8], ['H', -13, 8], ['H', 13, -8], ['H', 13, 8]],
+    bonds: [[0, 1, 1], [0, 2, 1], [0, 3, 1], [1, 4, 1], [1, 5, 1]]},
   // Glucose is drawn as its ring of five carbons and an oxygen, with the
   // sixth carbon and the OH groups around it; hydrogens on carbon are left off
   // the picture but counted.
@@ -64,6 +74,9 @@ export const equationOf = (level, state) => {
   }).join(' + ');
   return `${side(level.reactants)} → ${side(level.products)}`;
 };
+
+// The equation in words: "methane + oxygen → carbon dioxide + water".
+export const wordsOf = level => `${level.reactants.map(id => MOLECULES[id].name).join(' + ')} → ${level.products.map(id => MOLECULES[id].name).join(' + ')}`;
 
 // For a limited pile: the most of one product that can be built with nothing
 // left loose on the bench (leftover reactants stay whole on the shelf).

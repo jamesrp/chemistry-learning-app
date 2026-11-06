@@ -59,3 +59,12 @@ test('the two benzene structures are the two Kekulé rings', () => {
   const rings = solveAll(benzene).map(s => benzene.edges.map(([u, v], i) => (benzene.atoms[u][0] === 'C' && benzene.atoms[v][0] === 'C' ? s[i] : null)).filter(x => x !== null).join(''));
   assert.deepEqual(rings.sort(), ['121212', '212121']);
 });
+
+test('every board has the atoms its formula says', async () => {
+  const {atomsIn} = await import('./formula.mjs');
+  for (const level of BRIDGE_LEVELS) {
+    const counts = {};
+    for (const [el] of level.atoms) counts[el] = (counts[el] || 0) + 1;
+    assert.deepEqual(counts, atomsIn(level.formula), level.id);
+  }
+});

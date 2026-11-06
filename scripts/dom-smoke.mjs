@@ -112,6 +112,7 @@ for (const [i, level] of ISOMER_LEVELS.entries()) {
     assert.equal(keep().disabled, false, `${level.id}: keep enabled for ${text}`);
     tap(keep());
     assert.equal($$('.shelf .shelf-item').length, k + 1, `${level.id}: kept`);
+    assert.equal($$('.shelf .shelf-name').at(-1).textContent, level.known[k][0], `${level.id}: named as soon as it is kept`);
     if (k === 0) {
       tap(all()); assert.equal(feedback(), 'There are more.');
       // The same molecule placed differently is refused.
@@ -150,6 +151,7 @@ for (const [i, level] of ION_LEVELS.entries()) {
       tap(keep());
     }
     assert.equal($$('.shelf .shelf-item').length, C.allCompounds(level.tray).length);
+    assert.deepEqual($$('.shelf .shelf-name').map(x => x.textContent), C.allCompounds(level.tray).map(C.compoundName), `${level.id}: each kept compound is named`);
     tap($$('.actions .secondary')[0]);
   }
   assert.ok(isSolvedShown(), `${level.id} solved`);

@@ -2,7 +2,7 @@
 // bench; tap a product to build one from bench atoms. Atoms are never made
 // or lost, so an empty bench is a balanced equation.
 import {REACTION_LEVELS} from '../data/reaction-levels.js';
-import {MOLECULES, benchOf, check, equationOf, missingAtoms, hasAtoms, bestYield, smallestBalance} from '../chem/reactions.js';
+import {MOLECULES, benchOf, check, equationOf, wordsOf, missingAtoms, hasAtoms, bestYield, smallestBalance} from '../chem/reactions.js';
 import {h, History, moleculeSVG, flash} from '../ui.js';
 
 export const recycling = {
@@ -90,7 +90,7 @@ function mount(host, level, ctx) {
 
   function judge() {
     const st = history.state, c = check(level, st);
-    if (c.ok) { done = true; render(); ctx.solved({title: equationOf(level, st), detail: level.most ? `${c.made} is the most this pile can make` : ''}); return; }
+    if (c.ok) { done = true; render(); ctx.solved({title: equationOf(level, st), detail: level.most ? `${c.made} is the most this pile can make` : wordsOf(level)}); return; }
     if (!level.most && c.empty && c.used && !c.lowest) ctx.feedback('Balanced. Can you do it with fewer molecules?');
   }
 
