@@ -4,7 +4,7 @@
 // take it off. When the two rails are the same length every peg has a
 // notch: the compound is neutral.
 import {ION_LEVELS} from '../data/ion-levels.js';
-import {IONS, ionName, checkCompound, allCompounds, compoundKey} from '../chem/ions.js';
+import {IONS, ionName, checkCompound, allCompounds, compoundKey, compoundName} from '../chem/ions.js';
 import {h, s, tappable, History, f, flash} from '../ui.js';
 
 const U = 30, H = 34, PEG = 7;
@@ -61,7 +61,7 @@ function mount(host, level, ctx) {
     if (level.all) {
       keep.disabled = done || !neutral;
       all.disabled = done || !kept.length;
-      shelf.replaceChildren(...kept.map(k => h('div', {class: 'shelf-item formula-item'}, k.formula)));
+      shelf.replaceChildren(...kept.map(k => h('div', {class: 'shelf-item formula-item'}, k.formula, h('div', {class: 'shelf-name'}, k.name))));
     }
     ctx.changed({canUndo: history.canUndo && !done});
     if (!level.all && !done) check();
@@ -71,7 +71,9 @@ function mount(host, level, ctx) {
     const g = s('g', {class: `rod ${IONS[id].charge > 0 ? 'plus' : 'minus'}`, transform: `translate(${x} ${y})`});
     g.append(...rodShape(id));
     const w = Math.abs(IONS[id].charge) * U;
-    g.append(s('text', {class: 'rod-label', x: f(w / 2), y: f(H / 2 + 5)}, ionName(id)));
+    // A long label on a short rod (HCO₃⁻ on a rod one charge long) shrinks to fit.
+    const label = ionName(id), size = Math.max(9, Math.min(13, (w - 4) / (label.length * 0.58)));
+    g.append(s('text', {class: 'rod-label', x: f(w / 2), y: f(H / 2 + 5), style: `font-size:${f(size)}px`}, label));
     return tappable(g, `Remove ${ionName(id)}`, () => remove(index));
   }
 
@@ -103,7 +105,7 @@ function mount(host, level, ctx) {
     const k = compoundKey(counts), dup = history.state.kept.findIndex(x => x.key === k);
     if (dup >= 0) { flash(shelf.children[dup]); ctx.feedback('You have that one.'); return; }
     ctx.feedback(null);
-    history.push({rods: [], kept: [...history.state.kept, {key: k, formula: c.formula}]});
+    history.push({rods: [], kept: [...history.state.kept, {key: k, formula: c.formula, name: compoundName(counts)}]});
     render();
   }
   function doAll() {

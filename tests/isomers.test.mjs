@@ -78,3 +78,8 @@ test('different molecules get different keys', () => {
     .map(t => canonical(parseMol(t)));
   assert.equal(new Set(keys).size, keys.length);
 });
+
+test('each bag’s formula matches its atoms', async () => {
+  const {atomsIn} = await import('./formula.mjs');
+  for (const level of ISOMER_LEVELS) assert.deepEqual(atomsIn(level.formula), {...level.heavy, H: level.H}, level.id);
+});

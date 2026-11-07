@@ -90,7 +90,7 @@ function mount(host, level, ctx) {
   function keptItem(k) {
     const item = h('div', {class: 'shelf-item'});
     item.append(miniOf(k.draw, k.bonds, k.hs));
-    if (done) item.append(h('div', {class: 'shelf-name'}, nameOf(k.key)));
+    item.append(h('div', {class: 'shelf-name'}, nameOf(k.key)));
     return item;
   }
 

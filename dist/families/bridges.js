@@ -3,7 +3,7 @@
 // a bond takes one lone dot from each end, so an atom is done when it has no
 // lone single dots left.
 import {BRIDGE_LEVELS} from '../data/bridges-levels.js';
-import {edgeCap, status, solveAll, hintMove} from '../chem/bridges.js';
+import {status, solveAll, hintMove, startOrders, nextOrder} from '../chem/bridges.js';
 import {lonePairsOf} from '../chem/elements.js';
 import {h, s, tappable, History, viewBoxAround, bondLines, atomGlyph, f, flash} from '../ui.js';
 
@@ -22,7 +22,7 @@ export const bridges = {
 };
 
 function mount(host, level, ctx) {
-  const history = new History({orders: level.edges.map(() => 0), found: []});
+  const history = new History({orders: startOrders(level), found: []});
   let solutions = null, hinted = null, done = false;
   const atomsXY = level.atoms.map(([, x, y]) => [x, y]);
   const vb = viewBoxAround(atomsXY, {pad: 16});
@@ -95,7 +95,7 @@ function mount(host, level, ctx) {
   function tap(i) {
     if (done) return;
     const orders = history.state.orders.slice();
-    orders[i] = (orders[i] + 1) % (edgeCap(level, i) + 1);
+    orders[i] = nextOrder(level, i, orders[i]);
     hinted = null;
     ctx.feedback(null);
     history.push({...history.state, orders});
@@ -110,11 +110,11 @@ function mount(host, level, ctx) {
     const nextFound = [...found, orders];
     if (nextFound.length >= level.solutions) {
       history.push({orders, found: nextFound}); done = true; render();
-      ctx.solved({title: level.formula, detail: `${level.name}: both ways`});
+      ctx.solved({title: level.formula, detail: `${level.name}: ${level.solutions === 2 ? 'both ways' : `all ${level.solutions} ways`}`});
       return;
     }
     // Keep this one on the shelf and start again on a clear board.
-    setTimeout(() => { history.push({orders: level.edges.map(() => 0), found: nextFound}); render(); ctx.feedback('One more way.'); }, 700);
+    setTimeout(() => { history.push({orders: startOrders(level), found: nextFound}); render(); ctx.feedback('One more way.'); }, 700);
   }
 
   function miniOf(orders) {

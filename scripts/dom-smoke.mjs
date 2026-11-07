@@ -37,27 +37,29 @@ const {BRIDGE_LEVELS} = await import(APP + 'data/bridges-levels.js');
 const B = await import(APP + 'chem/bridges.js');
 for (const [i, level] of BRIDGE_LEVELS.entries()) {
   await go(`#/bridges/${i + 1}`);
-  const sols = B.solveAll(level);
+  const sols = B.solveAll(level), lo = B.minOrder(level), bondsAtStart = $$('.bridges .bond').length;
+  // Ring boards start with every line single, so a line takes (order - lo) taps.
+  const play = sol => sol.forEach((o, e) => { for (let t = lo; t < o; t++) tap($(`.bridges .hit[data-e="${e}"]`)); });
   // Undo check on first edge.
   tap($(`.bridges .hit[data-e="0"]`));
-  assert.ok($('.bond'), 'bond drawn');
+  assert.notEqual($$('.bridges .bond').length, bondsAtStart, 'tapping a line changes its bond');
   tap($$('.tool').find(b => b.textContent === 'Undo'));
-  assert.equal($$('.bridges .bond').length, 0, 'undo removes it');
+  assert.equal($$('.bridges .bond').length, bondsAtStart, 'undo removes it');
   tap($$('.tool').find(b => b.textContent === 'Hint'));
   assert.ok($('.edge.hinted'), `${level.id}: hint marks an edge`);
   for (const [k, sol] of sols.entries()) {
-    sol.forEach((o, e) => { for (let t = 0; t < o; t++) tap($(`.bridges .hit[data-e="${e}"]`)); });
+    play(sol);
     if (level.findAll && k < sols.length - 1) {
       assert.equal(isSolvedShown(), false);
       await tick(800);
       assert.equal($$('.shelf .shelf-item').length, k + 1);
       // The same one again is refused.
       if (k === 0) {
-        const taps = sols[0].reduce((a, b) => a + b, 0);
-        sols[0].forEach((o, e) => { for (let t = 0; t < o; t++) tap($(`.bridges .hit[data-e="${e}"]`)); });
+        const taps = sols[0].reduce((a, b) => a + b - lo, 0);
+        play(sols[0]);
         assert.match(feedback(), /Already found/);
         for (let t = 0; t < taps; t++) tap($$('.tool').find(b => b.textContent === 'Undo'));
-        assert.equal($$('.bridges .bond').length, 0);
+        assert.equal($$('.bridges .bond').length, bondsAtStart);
         assert.equal($$('.shelf .shelf-item').length, 1, 'undo keeps what was found');
       }
     }
@@ -112,6 +114,7 @@ for (const [i, level] of ISOMER_LEVELS.entries()) {
     assert.equal(keep().disabled, false, `${level.id}: keep enabled for ${text}`);
     tap(keep());
     assert.equal($$('.shelf .shelf-item').length, k + 1, `${level.id}: kept`);
+    assert.equal($$('.shelf .shelf-name').at(-1).textContent, level.known[k][0], `${level.id}: named as soon as it is kept`);
     if (k === 0) {
       tap(all()); assert.equal(feedback(), 'There are more.');
       // The same molecule placed differently is refused.
@@ -150,6 +153,7 @@ for (const [i, level] of ION_LEVELS.entries()) {
       tap(keep());
     }
     assert.equal($$('.shelf .shelf-item').length, C.allCompounds(level.tray).length);
+    assert.deepEqual($$('.shelf .shelf-name').map(x => x.textContent), C.allCompounds(level.tray).map(C.compoundName), `${level.id}: each kept compound is named`);
     tap($$('.actions .secondary')[0]);
   }
   assert.ok(isSolvedShown(), `${level.id} solved`);
