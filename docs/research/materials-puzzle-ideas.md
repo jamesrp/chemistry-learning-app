@@ -2,6 +2,8 @@
 
 A third pass, November 6, 2026, for James. Jay loved all five chemistry puzzles and asked for more molecules and more ions (those are in the same pull request as this doc). This doc looks further: which ideas from materials chemistry (metals and their lattices, magnetism, semiconductors, crystal packing, electron shells) make good puzzles in the house style. James's limits: discrete and puzzle-like, as the current boards are; no calculus; algebra only as simple fractional ratios, like the overhang's twelfths and the charge rails' common multiples.
 
+**Update, November 7:** Spin grids, Crystal cells, Ring patches and Electron swap are built (the next pull request). Crystal cells kept to filling one cube; the A, B, C layer stacking is left for later. Number 3 is still an idea.
+
 ## The short answer
 
 | Rank | Puzzle | Science | The move | Fit for Jay now |
