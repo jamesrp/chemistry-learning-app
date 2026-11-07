@@ -6,6 +6,7 @@ import {isomers} from './isomers.js';
 import {ions} from './ions.js';
 import {recycling} from './recycling.js';
 import {ice} from './ice.js';
+import {rings} from './rings.js';
 import {spins} from './spins.js';
 import {cells} from './cells.js';
 import {bulbs} from './bulbs.js';
@@ -15,5 +16,5 @@ import {gears} from './gears.js';
 import {overhang} from './overhang.js';
 
 // Chemistry first, then materials, then physics; each family says which shelf it sits on.
-export const FAMILIES = [bridges, isomers, ions, recycling, ice, spins, cells, bulbs, laser, beams, gears, overhang];
+export const FAMILIES = [bridges, isomers, ions, recycling, ice, rings, spins, cells, bulbs, laser, beams, gears, overhang];
 export const familyById = id => FAMILIES.find(fam => fam.id === id);
