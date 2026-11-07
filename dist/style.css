@@ -158,3 +158,12 @@ dialog.howto form{text-align:right;margin-top:8px}
 .rings .ring-bond.hinted .bond{stroke:var(--ochre);stroke-width:5px;stroke-dasharray:6 4}
 .found-count{font-family:var(--display);background:var(--chip);border-radius:8px;padding:0 8px;margin-left:4px}
 .rings .hit{stroke-width:30px}
+
+/* Electron swap */
+.board-svg.swap{max-height:58vh}
+.swap .swap-line{stroke:var(--ink);stroke-width:2.6px;vector-effect:non-scaling-stroke}
+.swap .swap-arrow{fill:none;stroke:var(--ink);stroke-width:2.6px;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.swap .electron{fill:var(--ink)}
+.swap .electron.moving{fill:var(--sun);stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke}
+.swap .ion-charge{font-size:11px;font-weight:700;fill:var(--ink);text-anchor:start}
+.swap .swap-link.hinted .slot,.swap .swap-link.hinted .swap-line{stroke:var(--ochre);stroke-width:5px;stroke-dasharray:6 4}
