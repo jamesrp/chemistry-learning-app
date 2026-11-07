@@ -6,7 +6,7 @@ import levels from '../data/spin-levels.js';
 import {parse, startSpins, unhappy, redCount, best, hintFlip, S} from '../chem/spins.js';
 import {h, s, tappable, History, f, flash} from '../ui.js';
 
-const R = 12.5;
+const R = 11.5;
 
 export const spins = {
   id: 'spins',
