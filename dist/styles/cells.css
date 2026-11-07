@@ -1,0 +1,30 @@
+/* Crystal cells: three layer cards of 3 × 3 spots, an oblique picture of the
+   whole cube beside them, and a sum per element underneath. */
+.cell-views{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
+.cell-cube{width:150px;height:auto;flex:0 0 auto}
+.board-svg.cells{flex:1 1 360px;max-width:560px;max-height:44vh;margin:0}
+.cells .layer-card{fill:var(--paper);stroke:var(--line);stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.cells .layer-line{stroke:#c9cfb6;stroke-width:1.4px;vector-effect:non-scaling-stroke}
+.cells .layer-label{font-size:11px;fill:var(--muted);font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif}
+.cells .spot-ring{fill:var(--card);stroke:#b9c4a8;stroke-width:1.4px;stroke-dasharray:3 3;vector-effect:non-scaling-stroke}
+.cells .spot-frac{fill:var(--muted)}
+.cell-ball{stroke:var(--ink);stroke-width:1.8px;vector-effect:non-scaling-stroke}
+.ball-label{fill:var(--ink);font-family:var(--display);text-anchor:middle}
+.cells .spot.fixed .cell-ball{stroke-width:3px}
+.cells .spot.clash .cell-ball{stroke:var(--bad);stroke-width:3.5px;stroke-dasharray:4 3}
+.cells .spot.hinted .cell-ball,.cells .spot.hinted .spot-ring{stroke:var(--ochre);stroke-width:4px;stroke-dasharray:5 3}
+.cells .spot-hit{fill:transparent}
+.cells .spot-hit:hover{fill:rgba(41,68,57,.07)}
+.cells .spot-hit:focus-visible{fill:rgba(179,136,64,.25)}
+.cell-cube .cube-edge{stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke}
+.cell-cube .cube-edge.back{stroke:#b9c4a8;stroke-dasharray:3 3}
+.cell-cube .cube-ball{stroke:var(--ink);stroke-width:1.2px;vector-effect:non-scaling-stroke}
+.cell-cube .cube-dot{fill:#b9c4a8}
+.cell-tray .cell-chip{gap:6px;padding:4px 12px}
+.cell-tray .cell-chip.empty{opacity:.5}
+.ball-icon{width:30px;height:30px}
+.cell-counts{display:flex;flex-direction:column;gap:6px;margin-top:10px;align-items:center}
+.cell-count{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px 12px}
+.cell-count.met{background:var(--good-soft);border-color:#c5d7b8}
+.count-sum{font-family:var(--display);font-size:1.15rem}
+.count-want{color:var(--muted);font-size:.9rem}

@@ -1,0 +1,23 @@
+/* Spin grids: arrows in sun (up) or sky (down) discs, lines that turn green
+   when happy and red (dashed) when not; a bar marks a line that wants
+   opposite arrows; pinned arrows sit in squares. */
+.board-svg.spins{max-height:58vh}
+.spin-goal .red-now{font-family:var(--display);font-size:1.15rem;background:var(--bad-soft);color:var(--bad);border-radius:8px;padding:0 8px;margin-right:4px}
+.spin-goal .red-now.met{background:var(--good-soft);color:var(--good)}
+.spin-bond{stroke-width:3.4px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.spin-line.green .spin-bond,.spin-bond.green{stroke:var(--good)}
+.spin-line.red .spin-bond,.spin-bond.red{stroke:var(--bad);stroke-dasharray:5 4}
+.anti-bar{stroke:var(--ink);stroke-width:2.6px;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.spin-disc{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.spin.up .spin-disc{fill:var(--sun)} .spin.down .spin-disc{fill:var(--sky)}
+.spin.pinned .spin-disc{stroke-width:3.5px}
+.spin.pinned.up .spin-disc{fill:#d9b35a} .spin.pinned.down .spin-disc{fill:#7fb2c9}
+.spin-arrow{fill:none;stroke:var(--ink);stroke-width:2.4px;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.spin.hinted .spin-disc{stroke:var(--ochre);stroke-width:5px;stroke-dasharray:5 3}
+.spin-hit{fill:transparent}
+.spin-hit:hover{fill:rgba(41,68,57,.06)}
+.spin-hit:focus-visible{fill:rgba(179,136,64,.25)}
+.spin-mini{height:68px;width:auto;max-width:180px}
+.spin-mini .spin-bond{stroke-width:1.8px}
+.spin-mini .spin-disc{stroke-width:1.2px}
+.spin-mini .spin-arrow{stroke-width:1.4px}

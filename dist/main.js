@@ -1,4 +1,4 @@
-// Chem Studio: the home screen (chemistry and physics shelves), a play screen per level and the Grown-ups
+// Chem Studio: the home screen (chemistry, materials and physics shelves), a play screen per level and the Grown-ups
 // notes, routed by the address hash (#/bridges/3, #/grownups).
 import {FAMILIES, familyById} from './families/index.js';
 import {NOTES} from './notes.js';
@@ -7,7 +7,7 @@ import {h} from './ui.js';
 
 const app = document.getElementById('app');
 const TIERS = [['easy', 'Easy'], ['medium', 'Medium'], ['hard', 'Hard']];
-const SHELVES = [['chemistry', 'Chemistry'], ['physics', 'Physics']];
+const SHELVES = [['chemistry', 'Chemistry'], ['materials', 'Materials'], ['physics', 'Physics']];
 const shelfOf = fam => fam.shelf || 'chemistry';
 let current = null;
 
@@ -104,7 +104,7 @@ function grownups() {
     for (const fam of fams) {
       const n = fam.notes || NOTES[fam.id];
       main.append(h('section', {class: 'note'}, h('h2', {}, fam.name),
-        h('h3', {}, shelf === 'physics' ? 'The physics' : 'The chemistry'), h('p', {}, n.science || n.chemistry),
+        h('h3', {}, shelf === 'physics' ? 'The physics' : shelf === 'materials' ? 'The science' : 'The chemistry'), h('p', {}, n.science || n.chemistry),
         h('h3', {}, 'The mathematics'), h('p', {}, n.maths),
         h('h3', {}, 'Careful'), h('p', {}, n.caution),
         h('h3', {}, 'At the kitchen table'), h('p', {}, n.kitchen),
