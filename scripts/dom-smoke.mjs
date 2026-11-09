@@ -211,7 +211,7 @@ await go('#/ice/1');
 // which gets these helpers and returns one line per level played.
 const tool = name => $$('.tool').find(b => b.textContent === name || b.getAttribute('aria-label') === name);
 const T = {w, assert, go, tick, $, $$, tap, tool, isSolvedShown, feedback};
-for (const id of ['rings', 'swap', 'spins', 'cells', 'bulbs', 'laser', 'beams', 'gears', 'overhang']) {
+for (const id of ['mystery', 'rings', 'swap', 'spins', 'cells', 'bulbs', 'laser', 'beams', 'gears', 'overhang']) {
   let mod;
   try { mod = await import(new URL(`./smoke/${id}.mjs`, import.meta.url).href); } catch (e) { if (e.code === 'ERR_MODULE_NOT_FOUND' && String(e.message).includes(`smoke/${id}.mjs`)) continue; throw e; }
   const lines = await mod.default(T);
