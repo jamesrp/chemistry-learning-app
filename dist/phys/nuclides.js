@@ -76,7 +76,7 @@ for (const [sym, [stable, unstable]] of Object.entries(TABLE)) {
 // Nuclides that don't hold together even for an instant: the gaps at mass 5
 // (helium-5, lithium-5) and two protons alone. Anything else off the table is
 // real but outside this corner of the chart.
-export const UNBOUND = new Set(['He-2', 'H-4', 'H-5', 'He-5', 'He-7', 'Li-4', 'Li-5', 'Be-5', 'Be-6', 'B-7', 'B-9', 'C-8', 'C-9']);
+export const UNBOUND = new Set(['He-2', 'H-4', 'H-5', 'He-5', 'He-7', 'Li-4', 'Li-5', 'Be-5', 'Be-6', 'B-7', 'B-9', 'C-8']);
 export const keyOf = (Z, A) => (ELEMENT[Z] ? `${ELEMENT[Z][0]}-${A}` : null);
 export const nuclide = key => NUCLIDES.get(key) || null;
 export const isFleeting = n => n.sym === 'Be' && n.A === 8;
@@ -138,6 +138,56 @@ export function shortestPaths(start, target, tray, limit = 200) {
   if (dist.has(start)) walk(start, [start]);
   return out;
 }
+
+// Why a nuclide lives or decays, in a sentence a child can follow. The idea
+// underneath: protons all push each other apart, while protons and neutrons
+// both hold their neighbours with the strong force, a short-range glue.
+// Neutrons add glue without adding push. Small nuclei hold best with equal
+// numbers; big ones need extra neutrons. Shells fill at 2, 8, 20, 28, 50, 82
+// and 126 (the magic numbers), and a full shell holds extra tight.
+const WHY_SPECIAL = {
+  'H-1': 'A single proton: there’s nothing to fall apart.',
+  'H-2': 'One proton and one neutron, only just held together. Two protons alone, or two neutrons alone, don’t hold at all.',
+  'He-3': 'Two protons held by one neutron. It lasts, but helium-4 holds much tighter.',
+  'He-4': 'Two protons and two neutrons fill the first shell, like the full shell of electrons in a noble gas. That makes helium-4 one of the tightest nuclei there is.',
+  'Be-8': 'Two helium-4s side by side. Each helium-4 holds itself so tightly that the two are better off apart, so it splits almost at once.',
+  'C-12': 'Three helium-4s stuck together, with glue to spare, so it lasts for ever.',
+  'O-16': 'Four helium-4s, and its 8 protons and 8 neutrons each fill a shell, so it holds very tight.',
+  'Ca-40': 'Its 20 protons and 20 neutrons each fill a shell. It is the heaviest nucleus that lasts with equal numbers of each.',
+  'Fe-56': 'One of the most tightly held nuclei of all. Building past iron costs energy instead of giving it, which is why big stars stop at iron.',
+  'Pb-206': 'Its 82 protons fill a shell, so lead holds. The uranium chain stops here.',
+  'Pb-208': 'Its 82 protons and 126 neutrons both fill a shell, so it holds very tight. The thorium chain stops here.',
+};
+const WHY_MODE = {
+  'b-': 'Too many neutrons for its protons, so a neutron turns into a proton (β⁻ decay).',
+  'b+': 'Too many protons for its neutrons, so a proton turns into a neutron (β⁺ decay).',
+  a: 'So many protons that their push wins: it throws out a helium-4 to get smaller (α decay).',
+};
+export function why(key) {
+  const n = nuclide(key);
+  if (WHY_SPECIAL[key]) return WHY_SPECIAL[key];
+  if (n.modes.length > 1) {
+    const both = n.modes.includes('b+')
+      ? 'Its protons and its neutrons are both odd numbers, and odd ones pair up badly, so it can go two ways: a neutron turns into a proton (β⁻), or a proton into a neutron (β⁺).'
+      : 'Too big, and with too many neutrons too, so it can go two ways: a neutron turns into a proton (β⁻), or it throws out a helium-4 (α).';
+    return both;
+  }
+  if (n.modes.length) return WHY_MODE[n.modes[0]];
+  if (n.N === n.Z) return 'Equal protons and neutrons: just right for a small nucleus, so the glue wins.';
+  if (n.Z <= 20) return 'Protons and neutrons nearly balanced, so the glue wins and it lasts.';
+  return 'A few more neutrons than protons. Bigger nuclei need them: neutrons add glue without adding push.';
+}
+// Why nothing lives on a square in UNBOUND.
+const WHY_UNBOUND = {
+  'He-2': 'Two protons push each other apart, and with no neutron to help there isn’t enough glue.',
+  'H-4': 'One proton can’t hold on to three neutrons: the extra one drops off.',
+  'H-5': 'One proton can’t hold on to four neutrons: the extra ones drop off.',
+  'He-5': 'Helium-4’s first shell is full, so a fifth piece has no room and drops off.',
+  'Li-5': 'Helium-4’s first shell is full, so a fifth piece has no room and drops off.',
+  'He-7': 'Too many neutrons for two protons to hold: one drops off.',
+  'B-9': 'It is beryllium-8 with a proton stuck on, and it falls apart even faster.',
+};
+export const whyUnbound = key => WHY_UNBOUND[key] || 'Far too many protons for its neutrons: their push wins and a proton flies off.';
 
 export const MODE_TEXT = {
   'b-': 'β⁻ decay: a neutron turns into a proton, and an electron flies out',
