@@ -1,0 +1,21 @@
+/* Star forge: the chart of nuclides. Stable squares are dark, beta-minus
+   squares sky blue, beta-plus rose, alpha sun yellow; the target has a dashed
+   gold outline and a ring marks where you are. */
+.board-svg.forge-chart{max-height:52vh}
+.nuc rect{stroke:var(--card);stroke-width:1px;vector-effect:non-scaling-stroke}
+.nuc.stable rect{fill:var(--pine)} .nuc.stable text{fill:var(--on-pine)}
+.nuc.beta-minus rect{fill:var(--sky)} .nuc.beta-plus rect{fill:var(--rose)} .nuc.alpha rect{fill:var(--sun)}
+.nuc.fleeting rect{fill:var(--card);stroke:var(--muted);stroke-dasharray:3 2}
+.nuc text{font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif;text-anchor:middle;pointer-events:none;fill:var(--ink)}
+.nuc-a{font-size:6.5px} .nuc-sym{font-size:9px;font-weight:600}
+.nuc.goal rect{stroke:var(--ochre);stroke-width:3px;stroke-dasharray:4 2}
+.forge-axis{font-size:8px;fill:var(--muted);text-anchor:middle;font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif}
+.forge-trail{fill:none;stroke:var(--ochre);stroke-width:2.4px;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.85}
+.forge-marker{fill:none;stroke:var(--ink);stroke-width:3px;vector-effect:non-scaling-stroke}
+.forge-now{text-align:center;margin:6px 4px 0}
+.forge-moves{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
+.forge-move{font-size:1.05rem}
+.forge-move.decay{background:var(--chip)}
+.forge-move:disabled{opacity:.45;cursor:default}
+.forge-move.hinted{border-color:var(--ochre);box-shadow:inset 0 0 0 3px var(--ochre)}
+.found-count.over{color:var(--bad)}

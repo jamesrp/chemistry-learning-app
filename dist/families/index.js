@@ -17,7 +17,8 @@ import {beams} from './beams.js';
 import {gears} from './gears.js';
 import {overhang} from './overhang.js';
 import {quarks} from './quarks.js';
+import {forge} from './forge.js';
 
 // Chemistry first, then materials, then physics, then particles and nuclei; each family says which shelf it sits on.
-export const FAMILIES = [bridges, isomers, mystery, ions, recycling, ice, rings, swap, spins, cells, bulbs, laser, beams, gears, overhang, quarks];
+export const FAMILIES = [bridges, isomers, mystery, ions, recycling, ice, rings, swap, spins, cells, bulbs, laser, beams, gears, overhang, quarks, forge];
 export const familyById = id => FAMILIES.find(fam => fam.id === id);
