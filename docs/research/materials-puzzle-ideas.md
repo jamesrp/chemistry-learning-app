@@ -4,6 +4,8 @@ A third pass, November 6, 2026, for James. Jay loved all five chemistry puzzles 
 
 **Update, November 7:** Spin grids, Crystal cells, Ring patches and Electron swap are built (the next pull request). Crystal cells kept to filling one cube; the A, B, C layer stacking is left for later. Number 3 is still an idea.
 
+**Update, November 9:** after Jay's first play, Crystal cells lost its ball tray (polonium had to go on the corners only because the tray held 8 balls, though one atom in the middle is the same crystal). Boards now ask for atoms per cube under one physical rule (metal atoms, or like ions, never side by side), accept the crystal drawn either way round, and show the cube among its neighbours. Structures that rule can't pin down (ReO₃, Cu₃N, the perovskites) were dropped. Electron swap was retired: its move was the same tap-the-line count as Valence bridges, and its explanation of ion charges now sits in Charge jigsaw's grown-up notes.
+
 ## The short answer
 
 | Rank | Puzzle | Science | The move | Fit for Jay now |
