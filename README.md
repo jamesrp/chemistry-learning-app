@@ -2,7 +2,7 @@
 
 A chemistry and physics puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a playable prototype: fourteen puzzle families and 244 levels on three shelves. Seven chemistry families (149 levels) come from `docs/research/puzzle-ideas.md` and `docs/research/materials-puzzle-ideas.md`; two materials families (27 levels, magnetism and metal lattices) come from `docs/research/materials-puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a playable prototype: thirteen puzzle families and 229 levels on three shelves. Six chemistry families (135 levels) come from `docs/research/puzzle-ideas.md` and `docs/research/materials-puzzle-ideas.md`; two materials families (26 levels, magnetism and metal lattices) come from `docs/research/materials-puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
@@ -30,14 +30,13 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 | **Atom recycling** (balancing) | 19 | Break reactant molecules onto a bench; build products from bench atoms | The bench is empty with the smallest whole numbers, and the equation is said in words. Three piles ask for the most product a fixed supply can make. |
 | **Square ice** (hydrogen bonds) | 12 | Tap near an oxygen to slide a hydrogen close to it | Every oxygen has exactly two close hydrogens. Edge hydrogens are given. |
 | **Ring patches** (Kekulé structures) | 13 | Tap a ring bond to make it single or double | Every carbon has exactly one double bond. Each find is kept; boards from benzene (2 ways) to circumcoronene (980) ask for every way or for a few. |
-| **Electron swap** (where ion charges come from) | 14 | Tap the line between a metal and a non-metal to move one outer electron across | Every metal has given all its outer electrons and every non-metal has eight. Each board has one answer, and the title names each compound made (up to three on one board). |
 
 ### Materials
 
 | Family | Levels | The move | Solved when |
 |---|---|---|---|
 | **Spin grids** (magnetism) | 15 | Tap an arrow to flip it up or down; squares are pinned | Neighbours that want to match (or, on barred lines, to differ) do, with the fewest unhappy lines possible. Triangle and glass boards can't make every line happy; some ask for every best arrangement. |
-| **Crystal cells** (unit cells) | 12 | Drop atoms from the tray onto corners, edges, faces and the middle of a cube | The tray is empty and the cell holds the right number of atoms: a corner counts ⅛, an edge ¼, a face ½, the middle 1. Salt boards keep the same element apart. |
+| **Crystal cells** (unit cells) | 11 | Pick an atom and tap a spot of a cube; every corner, every edge or every face fills at once. A picture shows the cube among its 7 neighbours | The cube holds the atoms asked for: a corner counts ⅛, an edge ¼, a face ½, the middle 1. Metal atoms can't sit side by side, nor can two of the same ion. Corners and middle (and edges and faces) can be swapped: that is the same crystal shifted half a cube, and both are accepted. |
 
 ### Physics
 
@@ -57,11 +56,11 @@ Every family has Undo, Restart and a Hint. Solved levels are remembered in the b
 npm test
 ```
 
-`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene and pyridine, and the Kekulé counts 3, 4, 5 and 6 for naphthalene, anthracene, phenanthrene and pyrene) and the atoms its formula says, and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit, and its name starts with the compound's name (cation, then anion, with iron(II)/iron(III) and copper(I)/copper(II)). Each reaction's smallest balance is the textbook equation, every molecule picture has its formula's atoms and each atom its bond count, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7. Every ring patch has the Kekulé count it claims, matched against a perfect-matching count. Every electron swap board has exactly one answer, gives as many electrons as it takes, and makes the compounds its title names.
+`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene and pyridine, and the Kekulé counts 3, 4, 5 and 6 for naphthalene, anthracene, phenanthrene and pyrene) and the atoms its formula says, and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit, and its name starts with the compound's name (cation, then anion, with iron(II)/iron(III) and copper(I)/copper(II)). Each reaction's smallest balance is the textbook equation, every molecule picture has its formula's atoms and each atom its bond count, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7. Every ring patch has the Kekulé count it claims, matched against a perfect-matching count. Every crystal cell board accepts only its own crystal, drawn either way round.
 
 The physics suites do the same. Every bulb board's wire budget is the fewest that work and its answer is the only one, and the powers it claims (the bridge's dark middle, ¼ in series, 4/9 and 1/9) are computed exactly. Every laser tray is tight and its answers match an exhaustive solver. Balance-beam answers are counted by a solver and an independent brute force. Gear levels' witnesses, solution counts and decoys (wrong way, wrong speed, jam) match an exhaustive search. Overhang's maximum reaches for 2 to 6 blocks are confirmed, and every stored solution is the shortest. In every physics family, following hints from a wrong start reaches a solution. For the materials families, every spin grid's best score and number of best arrangements come from trying every arrangement, and every crystal cell's atom count and answer come from a full search.
 
-`scripts/dom-smoke.mjs` plays all 244 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
+`scripts/dom-smoke.mjs` plays all 229 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
 
 ```sh
 npm install --no-save jsdom
@@ -74,7 +73,7 @@ Square ice boards are generated by `node scripts/make-ice.mjs`, which is seeded 
 
 | Path | What |
 |---|---|
-| `dist/chem/` | The chemistry and its checkers, with no DOM: bonds and the bridges solver, isomer canonical forms and enumeration, ions and formulas, reactions and balancing, the ice rules and solver, ring patches, electron swaps, spins and unit cells |
+| `dist/chem/` | The chemistry and its checkers, with no DOM: bonds and the bridges solver, isomer canonical forms and enumeration, ions and formulas, reactions and balancing, the ice rules and solver, ring patches, spins and unit cells |
 | `dist/phys/` | The physics and its solvers, with no DOM: exact circuit solving, beam tracing and colour mixing, turning sums, gear meshing and speeds, stack stability |
 | `dist/data/` | Levels for each family |
 | `dist/families/` | One board per family; `index.js` lists them |
