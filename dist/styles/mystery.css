@@ -1,0 +1,22 @@
+/* Mystery molecule: clue cards as small spectrum strips. The mystery's row
+   on top, the build's row under it; a card turns green when they match. */
+.spec-cards{display:flex;flex-direction:column;gap:8px;margin:0 auto 10px;max-width:520px}
+.spec-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:6px 10px 4px}
+.spec-card.match{border-color:var(--good);background:var(--good-soft)}
+.spec-card.miss{border-color:var(--bad);background:var(--bad-soft)}
+.spec-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.spec-row{display:flex;align-items:center;gap:8px}
+.spec-row.yours{opacity:.95}
+.spec-who{flex:0 0 2.2em;font-family:var(--display);font-size:1rem;color:var(--muted);text-align:right}
+.spec-row:not(.yours) .spec-who{font-size:1.3rem;color:var(--ink)}
+.spec{flex:1;min-width:0;height:auto;max-height:64px}
+.spec text{font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif;text-anchor:middle;pointer-events:none}
+.spec-label{font-size:7.5px;fill:var(--muted)}
+.spec-zone{fill:rgba(41,68,57,.04);stroke:none}
+.spec-base{stroke:var(--line);stroke-width:1px;vector-effect:non-scaling-stroke}
+.ir-trace{fill:none;stroke:var(--ink);stroke-width:1.8px;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.peak{stroke:var(--ink);stroke-width:1.8px;stroke-linecap:round;vector-effect:non-scaling-stroke;fill:none}
+.peak.broad{stroke-width:1.6px}
+.peak-n{font-size:7.5px;fill:var(--ink);font-weight:600}
+.shelf.tried .shelf-item{border-style:dashed}
+.board-svg.mystery-board{max-height:46vh}

@@ -2,7 +2,7 @@
 
 A chemistry and physics puzzle app with hands-on activities for a curious kid, a sibling of [Math Studio](https://github.com/jamesrp/small-math-adventure).
 
-**Chem Studio** is a playable prototype: thirteen puzzle families and 229 levels on three shelves. Six chemistry families (135 levels) come from `docs/research/puzzle-ideas.md` and `docs/research/materials-puzzle-ideas.md`; two materials families (26 levels, magnetism and metal lattices) come from `docs/research/materials-puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
+**Chem Studio** is a playable prototype: sixteen puzzle families and 289 levels on four shelves. Seven chemistry families (158 levels) come from `docs/research/puzzle-ideas.md`, `docs/research/materials-puzzle-ideas.md` and the November shortlist of new families (Mystery molecule); two materials families (26 levels, magnetism and metal lattices) come from `docs/research/materials-puzzle-ideas.md`; the five physics families (68 levels) come from `docs/research/physics-puzzle-ideas.md`; the two particles and nuclei families (37 levels) come from the same November shortlist. It follows Math Studio's way of working: plain JavaScript modules in `dist/` with no build step, the same paper-and-ink board look, almost no words on the board, rules behind **?** (How to play), and grown-up notes on their own page.
 
 ## Run it
 
@@ -26,6 +26,7 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 |---|---|---|---|
 | **Valence bridges** (Lewis structures) | 41 | Tap between two atoms: single, double, triple, none | Every atom has its bond count (H 1, O 2, N 3, C 4, S 2, Cl 1) and the atoms form one molecule. Lone dots show what's left to bond; benzene and pyridine ask for both of their structures. The last four (naphthalene to pyrene) start with every line single and ask for every way to place the double bonds. |
 | **Isomer hunt** | 17 | Place the bag's heavy atoms (C, N, O, Cl) on a lattice and bond them; hydrogens fill in (CH₃, OH) | Every distinct molecule is kept, and named as it is kept. Copies, bent or flipped, are refused; **That's all** checks the count. |
+| **Mystery molecule** (infrared and NMR) | 23 | Build a molecule from the bag, as in Isomer hunt; its clue cards appear under the mystery's | Every card matches: infrared (which bonds), carbon-13 (one peak per kind of carbon) and, on Hard, proton (signal sizes and n + 1 splitting). Wrong builds go on a shelf with their names. Exactly one molecule in each bag fits the cards. |
 | **Charge jigsaw** (ions) | 33 | Tap ions onto two rails; each rod is as long as its charge | The rails are the same length with the fewest ions (the formula unit), and the compound is named. Four Hard trays ask for every compound, one with both iron ions. |
 | **Atom recycling** (balancing) | 19 | Break reactant molecules onto a bench; build products from bench atoms | The bench is empty with the smallest whole numbers, and the equation is said in words. Three piles ask for the most product a fixed supply can make. |
 | **Square ice** (hydrogen bonds) | 12 | Tap near an oxygen to slide a hydrogen close to it | Every oxygen has exactly two close hydrogens. Edge hydrogens are given. |
@@ -48,7 +49,14 @@ The app is published at https://jamesrp.github.io/chemistry-learning-app/. Every
 | **Gear trains** | 12 | Place gears from the tray on pegs | Each output turns the right way at the right speed. A ring of three meshing gears jams. |
 | **Overhang** (block stacking) | 14 | Slide a block left or right; the blocks above ride along | The stack reaches the flag without tipping. Some levels star a block that must get there, using the blocks above as counterweights. |
 
-Every family has Undo, Restart and a Hint. Solved levels are remembered in the browser. **Grown-ups** (bottom of the home screen) has, per family, the chemistry, the mathematics, a teaching caution and a kitchen-table activity (for physics and materials, the science in place of the chemistry).
+### Particles and nuclei
+
+| Family | Levels | The move | Solved when |
+|---|---|---|---|
+| **Quark kitchen** (the quark model) | 18 | Tap quarks and antiquarks into up to three slots; tap one to flip its spin arrow | The build is the particle the goal asks for (by charge, spin, quarks or antimatter). Three quarks or a quark and antiquark are colourless; three identical quarks must spin together. Hard levels fill in Gell-Mann's octet, decuplet and meson charts. |
+| **Star forge** (the chart of nuclides) | 19 | Capture a proton, neutron or helium-4, or let the nucleus decay its own way (β⁻, β⁺, α) | The target nucleus is made in par moves. Lithium-5 and the like fall apart; beryllium-8 only lasts long enough to catch a helium-4. From the Sun's helium to supernova iron, and the thorium and uranium decay chains. |
+
+Every family has Undo, Restart and a Hint. Solved levels are remembered in the browser. **Grown-ups** (bottom of the home screen) has, per family, the chemistry, the mathematics, a teaching caution and a kitchen-table activity (for physics, materials and particles, the science in place of the chemistry).
 
 ## Checks
 
@@ -56,11 +64,11 @@ Every family has Undo, Restart and a Hint. Solved levels are remembered in the b
 npm test
 ```
 
-`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene and pyridine, and the Kekulé counts 3, 4, 5 and 6 for naphthalene, anthracene, phenanthrene and pyrene) and the atoms its formula says, and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit, and its name starts with the compound's name (cation, then anion, with iron(II)/iron(III) and copper(I)/copper(II)). Each reaction's smallest balance is the textbook equation, every molecule picture has its formula's atoms and each atom its bond count, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7. Every ring patch has the Kekulé count it claims, matched against a perfect-matching count. Every crystal cell board accepts only its own crystal, drawn either way round.
+`npm test` checks the content, not just the code: every Valence bridges board has exactly the structures it claims (one each, two for benzene and pyridine, and the Kekulé counts 3, 4, 5 and 6 for naphthalene, anthracene, phenanthrene and pyrene) and the atoms its formula says, and following hints from an empty board reaches a solution. Each isomer bag's named list matches a full enumeration and every molecule fits on its board. Every ion target is its formula unit, and its name starts with the compound's name (cation, then anion, with iron(II)/iron(III) and copper(I)/copper(II)). Each reaction's smallest balance is the textbook equation, every molecule picture has its formula's atoms and each atom its bond count, and the pile limits are right. Every ice board has exactly one solution, and the 3×3 domain-wall count is 7. Every ring patch has the Kekulé count it claims, matched against a perfect-matching count. Every crystal cell board accepts only its own crystal, drawn either way round. Every Mystery molecule level is checked against a full enumeration of its bag: exactly one molecule shows its cards, and the spectra engine's symmetry counts and splittings match textbook cases (neopentane's two kinds of carbon, ethyl acetate's quartet and triplet).
 
-The physics suites do the same. Every bulb board's wire budget is the fewest that work and its answer is the only one, and the powers it claims (the bridge's dark middle, ¼ in series, 4/9 and 1/9) are computed exactly. Every laser tray is tight and its answers match an exhaustive solver. Balance-beam answers are counted by a solver and an independent brute force. Gear levels' witnesses, solution counts and decoys (wrong way, wrong speed, jam) match an exhaustive search. Overhang's maximum reaches for 2 to 6 blocks are confirmed, and every stored solution is the shortest. In every physics family, following hints from a wrong start reaches a solution. For the materials families, every spin grid's best score and number of best arrangements come from trying every arrangement, and every crystal cell's atom count and answer come from a full search.
+The physics suites do the same. Every bulb board's wire budget is the fewest that work and its answer is the only one, and the powers it claims (the bridge's dark middle, ¼ in series, 4/9 and 1/9) are computed exactly. Every laser tray is tight and its answers match an exhaustive solver. Balance-beam answers are counted by a solver and an independent brute force. Gear levels' witnesses, solution counts and decoys (wrong way, wrong speed, jam) match an exhaustive search. Overhang's maximum reaches for 2 to 6 blocks are confirmed, and every stored solution is the shortest. In every physics family, following hints from a wrong start reaches a solution. Every Quark kitchen level's count of particles comes from trying every build its tray allows, with every spin, and the decuplet lands on the chart as a triangle. Every Star forge par is a breadth-first search of the chart, every decay lands on a nuclide in the table, and the uranium chain takes 8 alpha and 6 beta decays by 8 routes. For the materials families, every spin grid's best score and number of best arrangements come from trying every arrangement, and every crystal cell's atom count and answer come from a full search.
 
-`scripts/dom-smoke.mjs` plays all 229 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
+`scripts/dom-smoke.mjs` plays all 289 levels through the real interface in jsdom, tapping what a child would tap. It also checks undo, hints, refused duplicates, "fewer" nudges, the home and Grown-ups pages, and How to play. jsdom isn't a dependency:
 
 ```sh
 npm install --no-save jsdom
@@ -73,11 +81,11 @@ Square ice boards are generated by `node scripts/make-ice.mjs`, which is seeded 
 
 | Path | What |
 |---|---|
-| `dist/chem/` | The chemistry and its checkers, with no DOM: bonds and the bridges solver, isomer canonical forms and enumeration, ions and formulas, reactions and balancing, the ice rules and solver, ring patches, spins and unit cells |
-| `dist/phys/` | The physics and its solvers, with no DOM: exact circuit solving, beam tracing and colour mixing, turning sums, gear meshing and speeds, stack stability |
+| `dist/chem/` | The chemistry and its checkers, with no DOM: bonds and the bridges solver, isomer canonical forms and enumeration, ions and formulas, reactions and balancing, the ice rules and solver, ring patches, spins, unit cells, and the infrared and NMR spectra |
+| `dist/phys/` | The physics and its solvers, with no DOM: exact circuit solving, beam tracing and colour mixing, turning sums, gear meshing and speeds, stack stability, the quark model and the chart of nuclides |
 | `dist/data/` | Levels for each family |
 | `dist/families/` | One board per family; `index.js` lists them |
-| `dist/styles/` | Each physics and materials family's look |
+| `dist/styles/` | Each newer family's look |
 | `dist/main.js`, `dist/ui.js`, `dist/style.css` | Home, play screen, Grown-ups, shared drawing helpers, the look |
 | `dist/notes.js` | Grown-up notes |
 | `tests/` | `node --test` suites |

@@ -1,0 +1,28 @@
+/* Quark kitchen: quark discs in colour-charge colours (antiquarks are pale
+   with a ring of their anticolour), a spin arrow on each, and Gell-Mann's
+   chart of what has been found. */
+.board-svg.quark-board{max-height:30vh;max-width:420px}
+.q-slot{fill:none;stroke:var(--line);stroke-width:2px;stroke-dasharray:5 4;vector-effect:non-scaling-stroke}
+.q-disc{stroke:var(--ink);stroke-width:2px;vector-effect:non-scaling-stroke}
+.quark.c-red .q-disc{fill:var(--rose)} .quark.c-green .q-disc{fill:var(--leaf)} .quark.c-blue .q-disc{fill:var(--sky)}
+.quark.anti .q-disc{fill:var(--card);stroke-width:5px}
+.quark.anti.c-red .q-disc{stroke:var(--rose)} .quark.anti.c-green .q-disc{stroke:var(--leaf)} .quark.anti.c-blue .q-disc{stroke:var(--sky)}
+.q-letter{font-size:26px;fill:var(--ink)}
+.q-charge{font-size:14px;fill:var(--muted)}
+.q-arrow{fill:none;stroke:var(--ink);stroke-width:2.6px;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.quark{cursor:pointer}
+.quark:focus-visible .q-disc{stroke:var(--ochre);stroke-width:4px}
+.q-chip.anti .chip-el{background:var(--card);border-style:dashed}
+.q-chip .chip-el{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;border:2px solid var(--ink);background:var(--chip)}
+.q-chip:disabled{opacity:.45;cursor:default}
+.quark-status{text-align:center;margin:6px 4px 0;display:flex;flex-direction:column;gap:2px}
+.q-sum{color:var(--muted)}
+.q-made{font-family:var(--display);font-size:1.15rem;color:var(--good)}
+.q-why{color:var(--muted)}
+.quark-item .quark-sym{font-family:var(--display);font-size:1.6rem}
+.quark-chart-box{display:flex;justify-content:center;margin-top:12px}
+.quark-chart{width:100%;max-width:340px;height:auto}
+.chart-spot circle{fill:var(--card);stroke:var(--line);stroke-width:2px;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.chart-spot.found circle{fill:var(--good-soft);stroke:var(--good);stroke-dasharray:none}
+.chart-spot text{font-family:var(--display);font-size:14px;text-anchor:middle;fill:var(--muted)}
+.chart-spot.found text{fill:var(--ink)}
