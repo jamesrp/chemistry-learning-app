@@ -1,7 +1,7 @@
 /* Crystal cells: three layer cards of 3 × 3 spots, an oblique picture of the
-   whole cube beside them, and a sum per element underneath. */
+   cube and its neighbours beside them, and a sum per element underneath. */
 .cell-views{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
-.cell-cube{width:150px;height:auto;flex:0 0 auto}
+.cell-block{width:190px;height:auto;flex:0 0 auto}
 .board-svg.cells{flex:1 1 360px;max-width:560px;max-height:44vh;margin:0}
 .cells .layer-card{fill:var(--paper);stroke:var(--line);stroke-width:1.2px;vector-effect:non-scaling-stroke}
 .cells .layer-line{stroke:#c9cfb6;stroke-width:1.4px;vector-effect:non-scaling-stroke}
@@ -16,15 +16,16 @@
 .cells .spot-hit{fill:transparent}
 .cells .spot-hit:hover{fill:rgba(41,68,57,.07)}
 .cells .spot-hit:focus-visible{fill:rgba(179,136,64,.25)}
-.cell-cube .cube-edge{stroke:var(--ink);stroke-width:1.6px;vector-effect:non-scaling-stroke}
-.cell-cube .cube-edge.back{stroke:#b9c4a8;stroke-dasharray:3 3}
-.cell-cube .cube-ball{stroke:var(--ink);stroke-width:1.2px;vector-effect:non-scaling-stroke}
-.cell-cube .cube-dot{fill:#b9c4a8}
-.cell-tray .cell-chip{gap:6px;padding:4px 12px}
-.cell-tray .cell-chip.empty{opacity:.5}
+.cell-block .block-edge{stroke:#d3d8c4;stroke-width:1px;vector-effect:non-scaling-stroke}
+.cell-block .block-edge.home{stroke:var(--ink);stroke-width:1.6px}
+.cell-block .block-ball{stroke:var(--ink);stroke-width:1px;vector-effect:non-scaling-stroke}
+.cell-block .block-ball.far{opacity:.32}
+.cell-block .block-dot{fill:#b9c4a8}
+.cell-tray .cell-chip{padding:4px 10px}
 .ball-icon{width:30px;height:30px}
 .cell-counts{display:flex;flex-direction:column;gap:6px;margin-top:10px;align-items:center}
 .cell-count{display:flex;align-items:center;gap:10px;background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:4px 12px}
 .cell-count.met{background:var(--good-soft);border-color:#c5d7b8}
 .count-sum{font-family:var(--display);font-size:1.15rem}
 .count-want{color:var(--muted);font-size:.9rem}
+.cell-tray[hidden]{display:none}
