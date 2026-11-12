@@ -5,9 +5,12 @@
 .spec-card.match{border-color:var(--good);background:var(--good-soft)}
 .spec-card.miss{border-color:var(--bad);background:var(--bad-soft)}
 .spec-title{font-size:.8rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+.spec-sub{margin-left:.6em;font-weight:400;text-transform:none;letter-spacing:0}
+/* The label column is a fixed rem width (not em), so the "?" row and the
+   "you" row start their strips at the same place and the zones line up. */
 .spec-row{display:flex;align-items:center;gap:8px}
 .spec-row.yours{opacity:.95}
-.spec-who{flex:0 0 2.2em;font-family:var(--display);font-size:1rem;color:var(--muted);text-align:right}
+.spec-who{flex:0 0 2.6rem;width:2.6rem;font-family:var(--display);font-size:1rem;color:var(--muted);text-align:right}
 .spec-row:not(.yours) .spec-who{font-size:1.3rem;color:var(--ink)}
 .spec{flex:1;min-width:0;height:auto;max-height:64px}
 .spec text{font-family:'Avenir Next',Avenir,'Segoe UI',system-ui,sans-serif;text-anchor:middle;pointer-events:none}

@@ -4,7 +4,7 @@
 // own way, to walk to the target in par moves. Squares are coloured by how
 // each nuclide lives: stable, or decaying by β⁻, β⁺ or α.
 import levels from '../data/forge-levels.js';
-import {nuclide, nameOf, shortName, moves, landing, distances, bestMoves, shortestPaths, isFleeting, UNBOUND, MODE_TEXT, NUCLIDES, ELEMENT} from '../phys/nuclides.js';
+import {nuclide, nameOf, shortName, moves, landing, distances, bestMoves, shortestPaths, isFleeting, UNBOUND, NUCLIDES, ELEMENT, why, whyUnbound} from '../phys/nuclides.js';
 import {h, s, History, f, flash} from '../ui.js';
 
 const S = 22;
@@ -21,6 +21,7 @@ export const forge = {
     'Tap + proton, + neutron or + helium-4 to stick one on. Tap a decay button to let an unstable nucleus change by itself.',
     'β⁻ turns a neutron into a proton (up and left). β⁺ turns a proton into a neutron (down and right). α throws out a helium-4 (down and left, two each way).',
     'A move that lands where nothing can live, like lithium-5, isn’t allowed. Make the target in the number of moves the board shows.',
+    'Why do some nuclei last and others don’t? Protons all push each other apart. Protons and neutrons both hold their neighbours with a short-range glue, the strong force, and neutrons add glue without adding push. Small nuclei last best with equal numbers (the dashed line); bigger ones need extra neutrons. Under the chart, each square you stand on says why it lasts or decays.',
   ],
   notes: {
     science: 'Almost every atom heavier than hydrogen and helium was built inside a star. The Sun joins protons into helium-4. Red giants join three helium-4 nuclei into carbon-12, jumping over the gaps at mass 5 and mass 8, where nothing lasts (beryllium-8 splits in a split second, so the third helium-4 has to arrive almost at once). Heavier stars go on adding helium-4 to make oxygen, neon, magnesium, silicon, sulfur, argon and calcium, then make nickel-56, which decays to iron-56. Past iron, nuclei grow by catching neutrons and letting beta decays turn some into protons. Going the other way, uranium-238 and thorium-232 fall apart through long chains of alpha and beta decays and end as lead. The chart in this game is the real chart of nuclides, cut down to the squares the levels use.',
@@ -38,9 +39,10 @@ function mount(host, level, ctx) {
   let done = false, hinted = null;
   const goal = h('p', {class: 'puzzle-goal forge-goal'});
   const svg = s('svg', {class: 'board-svg forge-chart', 'aria-label': 'Chart of nuclides'});
+  const keyBox = h('div', {class: 'forge-key'});
   const now = h('p', {class: 'forge-now'});
   const buttons = h('div', {class: 'forge-moves'});
-  host.append(goal, svg, now, buttons);
+  host.append(goal, svg, keyBox, now, buttons);
 
   function render() {
     const {trail} = history.state, here = trail.at(-1), n = nuclide(here), used = trail.length - 1;
@@ -48,7 +50,7 @@ function mount(host, level, ctx) {
       h('span', {class: `found-count ${used > level.par ? 'over' : ''}`}, `Moves: ${used}`));
     drawChart(trail);
     now.replaceChildren(h('strong', {}, cap(nameOf(here))), `: ${n.Z} proton${n.Z > 1 ? 's' : ''}, ${n.N} neutron${n.N === 1 ? '' : 's'}. `,
-      n.modes.length ? (isFleeting(n) ? 'It splits in two almost at once, so only another helium-4 can catch it in time.' : `It is unstable: ${n.modes.map(m => MODE_TEXT[m]).join(', or ')}.`) : 'Stable.');
+      n.modes.length ? '' : 'Stable. ', why(here), isFleeting(n) ? ' Only another helium-4 can catch it in time.' : '');
     const open = moves(here, tray);
     buttons.replaceChildren(
       ...tray.map(m => h('button', {type: 'button', class: `chip forge-move capture ${hinted === m ? 'hinted' : ''}`, 'data-move': m,
@@ -66,22 +68,30 @@ function mount(host, level, ctx) {
     const x = N => (N - n0) * S, y = Z => (z1 - Z) * S;
     svg.setAttribute('viewBox', `-30 -4 ${f((n1 - n0 + 1) * S + 34)} ${f((z1 - z0 + 1) * S + 22)}`);
     svg.replaceChildren();
+    const kinds = new Set();
     // Element names down the side, neutron counts along the bottom.
     for (let Z = Math.max(1, z0); Z <= z1; Z++) if (ELEMENT[Z]) svg.append(s('text', {class: 'forge-axis', x: -6, y: f(y(Z) + S / 2 + 4)}, ELEMENT[Z][0]));
     for (let N = Math.max(0, n0); N <= n1; N++) if ((N - n0) % 2 === 0) svg.append(s('text', {class: 'forge-axis', x: f(x(N) + S / 2), y: f((z1 - z0 + 1) * S + 14)}, String(N)));
     for (const nu of NUCLIDES.values()) {
       if (nu.Z < z0 || nu.Z > z1 || nu.N < n0 || nu.N > n1) continue;
-      const key = `${nu.sym}-${nu.A}`, kind = !nu.modes.length ? 'stable' : isFleeting(nu) ? 'fleeting' : nu.modes[0] === 'a' ? 'alpha' : nu.modes[0] === 'b-' ? 'beta-minus' : 'beta-plus';
+      const key = `${nu.sym}-${nu.A}`, kind = kindOf(nu);
+      kinds.add(kind);
       const g = s('g', {class: `nuc ${kind} ${key === target ? 'goal' : ''} ${key === trail.at(-1) ? 'here' : ''}`, 'data-key': key});
       g.append(s('rect', {x: f(x(nu.N) + 1), y: f(y(nu.Z) + 1), width: S - 2, height: S - 2, rx: 3}));
       g.append(s('text', {class: 'nuc-a', x: f(x(nu.N) + S / 2), y: f(y(nu.Z) + 8.5)}, String(nu.A)));
       g.append(s('text', {class: 'nuc-sym', x: f(x(nu.N) + S / 2), y: f(y(nu.Z) + 17.5)}, nu.sym));
       svg.append(g);
     }
+    // Equal protons and neutrons: where the small stable nuclei sit.
+    const lo = Math.max(z0, n0), hi = Math.min(z1, n1);
+    if (hi > lo) svg.append(s('line', {class: 'forge-balance', x1: f(x(lo - 0.5) + S / 2), y1: f(y(lo - 0.5) + S / 2), x2: f(x(hi + 0.5) + S / 2), y2: f(y(hi + 0.5) + S / 2)},
+      s('title', {}, 'Equal protons and neutrons')));
     const pts = trail.map(k => { const nu = nuclide(k); return `${f(x(nu.N) + S / 2)},${f(y(nu.Z) + S / 2)}`; });
     if (pts.length > 1) svg.append(s('polyline', {class: 'forge-trail', points: pts.join(' ')}));
     const hn = nuclide(trail.at(-1));
     svg.append(s('circle', {class: 'forge-marker', cx: f(x(hn.N) + S / 2), cy: f(y(hn.Z) + S / 2), r: S / 2 + 1}));
+    keyBox.replaceChildren(...KEY.filter(([k]) => kinds.has(k)).map(([k, label]) => h('span', {class: `forge-key-item ${k}`}, h('span', {class: 'forge-swatch'}), label)),
+      lo < hi ? h('span', {class: 'forge-key-item balance'}, h('span', {class: 'forge-swatch'}), 'protons = neutrons') : '');
   }
 
   function step(m) {
@@ -91,7 +101,7 @@ function mount(host, level, ctx) {
     hinted = null;
     if (!mv.to) {
       const l = landing(here, m), where = l.key ? shortName(l.key) : 'that square';
-      ctx.feedback(l.key && UNBOUND.has(l.key) ? `Nothing lives at ${where}: it falls apart at once. Try another way.` : `${cap(where)} is off this corner of the chart. Try another way.`);
+      ctx.feedback(l.key && UNBOUND.has(l.key) ? `Nothing lives at ${where}: it falls apart at once. ${whyUnbound(l.key)} Try another way.` : `${cap(where)} is off this corner of the chart. Try another way.`);
       flash(buttons);
       return;
     }
@@ -127,3 +137,5 @@ function mount(host, level, ctx) {
 }
 
 const cap = t => t[0].toUpperCase() + t.slice(1);
+const kindOf = nu => (!nu.modes.length ? 'stable' : isFleeting(nu) ? 'fleeting' : nu.modes[0] === 'a' ? 'alpha' : nu.modes[0] === 'b-' ? 'beta-minus' : 'beta-plus');
+const KEY = [['stable', 'lasts'], ['beta-minus', 'β⁻: too many neutrons'], ['beta-plus', 'β⁺: too many protons'], ['alpha', 'α: too big'], ['fleeting', 'splits at once']];

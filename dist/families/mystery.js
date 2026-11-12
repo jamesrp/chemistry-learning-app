@@ -19,6 +19,8 @@ for (const lv of MYSTERY_LEVELS) NAMES.set(canonical(parseMol(lv.target[1])), lv
 export const nameOf = mol => NAMES.get(canonical(mol)) || '';
 
 const CARD_TITLE = {ir: 'Infrared', c: 'Carbon-13', h: 'Proton'};
+// What one mark on each card means, under its title.
+const CARD_SUB = {ir: 'a dip for each kind of bond', c: 'a line for each kind of carbon', h: 'a signal for each kind of hydrogen'};
 
 export const mystery = {
   id: 'mystery',
@@ -27,7 +29,8 @@ export const mystery = {
   howTo: [
     'Somewhere in the bag is one mystery molecule. The cards are its clues, read the way a chemist reads a real sample.',
     'Build a molecule from every atom in the bag, as in Isomer hunt. Its own cards appear under the mystery’s. A card turns green when they match.',
-    'Infrared: each dip is a kind of bond (O–H, N–H, C≡, C=O, C=C). Carbon-13: one peak for each kind of carbon. Carbons that a flip or turn of the molecule swaps are the same kind.',
+    'Infrared: each dip is a kind of bond (O–H, N–H, C≡, C=O, C=C). No dip means the molecule has none of that bond.',
+    'Carbon-13: one line for each kind of carbon. Its zone says what that carbon is bonded to: a double bond (C=O, C=C), an O, N or Cl, or only carbons and hydrogens. Carbons that a flip or turn of the molecule swaps are the same kind and share a line, so count the lines in each zone. Where a line sits inside its zone doesn’t matter.',
     'Proton: one signal for each kind of hydrogen, with how many H it stands for. A signal split into n + 1 lines sits next to n hydrogens on the neighbouring carbons.',
   ],
   notes: {
@@ -72,7 +75,7 @@ function mount(host, level, ctx) {
     cardsBox.replaceChildren(...level.cards.map(card => {
       const match = whole && cardKey(mol, card) === cardKey(target, card);
       return h('div', {class: `spec-card ${whole ? (match ? 'match' : 'miss') : ''}`, 'data-card': card},
-        h('div', {class: 'spec-title'}, CARD_TITLE[card]),
+        h('div', {class: 'spec-title'}, CARD_TITLE[card], h('span', {class: 'spec-sub'}, CARD_SUB[card])),
         h('div', {class: 'spec-row'}, h('span', {class: 'spec-who'}, '?'), drawCard(card, target)),
         h('div', {class: 'spec-row yours'}, h('span', {class: 'spec-who'}, 'you'), whole ? drawCard(card, mol) : drawCard(card, null)));
     }));
@@ -160,8 +163,10 @@ function mount(host, level, ctx) {
   function clueHint() {
     const card = level.cards[0];
     if (card === 'c') {
-      const peaks = carbonPeaks(target);
-      return `The mystery has ${peaks.length} kind${peaks.length > 1 ? 's' : ''} of carbon. Carbons that a flip or turn swaps count as one kind, so more symmetry means fewer peaks.`;
+      const peaks = carbonPeaks(target), n = z => peaks.filter(p => p === z).length;
+      const parts = [['co', 'in a C=O'], ['cc', 'in a C=C'], ['x', 'bonded to O, N or Cl'], ['plain', 'bonded only to C and H']].filter(([z]) => n(z)).map(([z, t]) => `${n(z)} ${t}`);
+      const list = parts.length > 1 ? `${parts.slice(0, -1).join(', ')} and ${parts.at(-1)}` : parts[0];
+      return `The mystery has ${peaks.length} kind${peaks.length > 1 ? 's' : ''} of carbon: ${list}. Carbons that a flip or turn swaps count as one kind, so more symmetry means fewer lines.`;
     }
     if (card === 'ir') {
       const has = irBands(target), list = IR_BANDS.filter(b => has.includes(b)).map(b => IR_LABEL[b]);
@@ -190,10 +195,10 @@ function mount(host, level, ctx) {
 // as chemists draw them.
 const W = 320, HT = 44;
 const IR_X = {oh: 38, nh: 88, triple: 150, co: 214, cc: 262};
-const C_ZONE = {co: [0, 70], cc: [70, 150], x: [150, 225], plain: [225, 320]};
-const C_LABEL = {co: 'C=O', cc: 'C=C', x: 'by O, N, Cl', plain: 'plain'};
+const C_ZONE = {co: [0, 60], cc: [60, 125], x: [125, 225], plain: [225, 320]};
+const C_LABEL = {co: 'C=O', cc: 'C=C', x: 'bonded to O, N, Cl', plain: 'only C and H'};
 const H_ZONE = {ald: [0, 44], cc: [44, 104], oh: [104, 146], x: [146, 208], plain: [208, 320]};
-const H_LABEL = {ald: 'H–C=O', cc: 'C=C', oh: 'O–H N–H', x: 'by O, N, Cl', plain: 'plain'};
+const H_LABEL = {ald: 'H–C=O', cc: 'C=C', oh: 'O–H N–H', x: 'near O, N, Cl', plain: 'only C and H'};
 
 function drawCard(card, mol) {
   const svg = s('svg', {class: `spec spec-${card}`, viewBox: `0 0 ${W} ${HT}`, role: 'img', 'aria-label': mol ? describe(card, mol) : 'Not a whole molecule yet'});
